@@ -1,0 +1,201 @@
+"""Compact setup and Windows tray. GUI callbacks never perform network requests."""
+import argparse,ctypes,json,os,queue,sys,threading,time,webbrowser
+from pathlib import Path
+import tkinter as tk
+from tkinter import ttk,filedialog,messagebox
+import engine
+
+SOURCE_URL='https://github.com/GarkGamesStudio/death-atlas-sync'
+PRIVACY_URL='https://garkgames.com/death-atlas/privacy/'
+TRAY_ITEMS=('Configurar','Acerca de','Cerrar')
+
+class App:
+ def __init__(self,root,store,service,background=False):
+  self.root=root;self.store=store;self.service=service;self.state=store.read()
+  self.messages=queue.Queue();self.wake=threading.Event();self.paused=threading.Event();self.paused.set();self.quit=threading.Event();self.operation=threading.Lock();self.tray_ready=threading.Event()
+  self.icon=None;self.busy=False;self.scanning=False;self.scan_generation=0;self.candidates=[];self.last_error='';self.last_status='Todavía no se ha sincronizado.'
+  root.title('Death Atlas Sync');root.minsize(540,290);root.resizable(True,False);root.configure(bg='#111a20')
+  style=ttk.Style();style.theme_use('clam');style.configure('TFrame',background='#111a20');style.configure('TLabel',background='#111a20',foreground='#d8e3d7');style.configure('TButton',padding=(10,6))
+  self.panel=ttk.Frame(root,padding=18);self.panel.pack(fill='both',expand=True)
+  ttk.Label(self.panel,text='¿Dónde está tu WoW?',font=('Segoe UI',13,'bold')).pack(anchor='w',pady=(0,8))
+  self.folder=tk.StringVar();self.entry=ttk.Entry(self.panel,textvariable=self.folder);self.entry.pack(fill='x')
+  actions=ttk.Frame(self.panel);actions.pack(fill='x',pady=8)
+  self.detect_button=ttk.Button(actions,text='Detectar',command=self.rescan);self.detect_button.pack(side='left')
+  self.choose_button=ttk.Button(actions,text='Elegir carpeta',command=self.choose);self.choose_button.pack(side='left',padx=6)
+  self.ok_button=ttk.Button(actions,text='OK',command=self.start);self.ok_button.pack(side='right')
+  self.account_row=ttk.Frame(self.panel);ttk.Label(self.account_row,text='Elige la cuenta:').pack(anchor='w')
+  self.selection=tk.StringVar();self.combo=ttk.Combobox(self.account_row,textvariable=self.selection,state='readonly');self.combo.pack(fill='x',pady=(3,8));self.combo.bind('<<ComboboxSelected>>',lambda event:self.selected_folder())
+  self.notice=ttk.Label(self.panel,text='Al pulsar OK autorizas compartir tu historial de muertes (también el anterior) y descargar Global. El histórico se conserva sin caducidad; cerrar Sync no borra aportes.',wraplength=500,foreground='#aab9bc');self.notice.pack(anchor='w',pady=(5,0))
+  link=ttk.Label(self.panel,text='Datos y privacidad',foreground='#cbf276',cursor='hand2');link.pack(anchor='w',pady=(3,8));link.bind('<Button-1>',lambda event:webbrowser.open(PRIVACY_URL))
+  self.status=tk.StringVar(value='Elige la carpeta o pulsa Detectar.');ttk.Label(self.panel,textvariable=self.status,wraplength=500).pack(anchor='w')
+  profile=self.state.get('selected')
+  if profile and Path(profile['saved']).is_file() and (Path(profile['addon'])/'DeathAtlas.toc').is_file():self.set_candidates([profile],profile)
+  else:self.rescan()
+  self.tray();root.protocol('WM_DELETE_WINDOW',self.window_close);self.fit_window();self.poll_id=root.after(100,self.poll)
+  threading.Thread(target=self.loop,daemon=True).start()
+  if background and profile in self.candidates and self.state.get('enabled') and engine.consented(self.state) and self.icon:
+   def resume_background():
+    if self.tray_ready.wait(5) and self.icon:self.messages.put(('resume_background',))
+    else:self.messages.put(('setup_error','No se pudo iniciar el icono de la bandeja de Windows.'))
+   threading.Thread(target=resume_background,daemon=True).start()
+
+ def fit_window(self):
+  self.root.update_idletasks();self.root.geometry('540x'+str(max(290,self.panel.winfo_reqheight())))
+ def set_busy(self,value):
+  self.busy=value
+  for widget in (self.entry,self.detect_button,self.choose_button,self.ok_button):widget.configure(state='disabled' if value else 'normal')
+  self.combo.configure(state='disabled' if value else 'readonly')
+ def selected_folder(self):
+  index=self.combo.current()
+  if 0<=index<len(self.candidates):self.folder.set(str(Path(self.candidates[index]['addon']).parents[2]))
+ def profile_label(self,profile):
+  saved=Path(profile['saved']);client=Path(profile['addon']).parents[2]
+  return saved.parents[1].name+' · '+client.name+' · '+str(client.parent)
+ def set_candidates(self,values,preferred=None):
+  self.candidates=values;self.combo['values']=[self.profile_label(p) for p in values]
+  if preferred in values:self.combo.current(values.index(preferred))
+  elif len(values)==1:self.combo.current(0)
+  else:self.selection.set('')
+  self.selected_folder()
+  if hasattr(self,'account_row'):
+   if len(values)>1:self.account_row.pack(fill='x',before=self.notice)
+   else:self.account_row.pack_forget()
+  if not values:self.status.set('No encontramos un historial. Entra una vez con el addon instalado y cierra WoW, o elige otra carpeta.')
+  elif self.combo.current()<0:self.status.set('Hay varias cuentas. Elige una y pulsa OK.')
+  else:self.status.set('WoW encontrado. Pulsa OK para comprobar y continuar.')
+  if hasattr(self,'panel'):self.fit_window()
+ def rescan(self):
+  if self.busy or self.scanning:return
+  self.scanning=True;self.scan_generation+=1;generation=self.scan_generation
+  preferred=[self.folder.get()] if self.folder.get() else []
+  current=self.candidates[self.combo.current()] if 0<=self.combo.current()<len(self.candidates) else None
+  self.status.set('Buscando WoW…')
+  def task():
+   try:self.messages.put(('discovered',engine.discover(preferred),current,generation))
+   except Exception:self.messages.put(('discovery_failed',generation))
+  threading.Thread(target=task,daemon=True).start()
+ def choose(self):
+  if self.busy:return
+  path=filedialog.askdirectory(title='Elige la carpeta de WoW',parent=self.root)
+  if path:
+   self.scan_generation+=1;self.scanning=False;self.folder.set(path);self.set_candidates(engine.detect(path))
+ def start(self):
+  if self.busy:return
+  selected=self.candidates[self.combo.current()] if 0<=self.combo.current()<len(self.candidates) else None
+  selected_root=str(Path(selected['addon']).parents[2]) if selected else ''
+  if self.folder.get() and (not selected or os.path.normcase(os.path.abspath(self.folder.get()))!=os.path.normcase(os.path.abspath(selected_root))):self.set_candidates(engine.detect(self.folder.get()))
+  index=self.combo.current()
+  if index<0 or index>=len(self.candidates):
+   messagebox.showerror('No se pudo iniciar','Elige una carpeta con Death Atlas instalado y una cuenta con historial guardado.',parent=self.root);return
+  self.scan_generation+=1;self.scanning=False;self.paused.set();self.set_busy(True);self.status.set('Comprobando y sincronizando…')
+  profile=dict(self.candidates[index])
+  def task():
+   try:
+    if not self.tray_ready.wait(5) or not self.icon:raise engine.SyncError('No se pudo crear el icono de la bandeja de Windows. Cierra Sync y vuelve a abrirlo.')
+    with self.operation:
+     if self.quit.is_set():return
+     self.state.update(selected=profile,consent=True,consentPolicy=engine.POLICY,enabled=False);self.store.write(self.state)
+     result=engine.sync_profile(profile,self.state,self.store,self.service,self.quit.is_set)
+     if self.quit.is_set():return
+     if self.state.get('startup'):engine.startup(True)
+     self.state['enabled']=True;self.store.write(self.state)
+    self.messages.put(('connected',result))
+   except Exception as exc:self.messages.put(('setup_error',engine.describe_error(exc)))
+  threading.Thread(target=task,daemon=True).start()
+ def tray(self):
+  try:
+   import pystray
+   from PIL import Image,ImageDraw
+   image=Image.new('RGB',(64,64),'#111a20');draw=ImageDraw.Draw(image);draw.ellipse((8,8,56,56),outline='#cbf276',width=4);draw.polygon([(39,15),(34,35),(19,46),(27,27)],fill='#cbf276')
+   callbacks=(lambda *_:self.messages.put(('configure',)),lambda *_:self.messages.put(('about',)),lambda *_:self.messages.put(('exit',)))
+   menu=pystray.Menu(*(pystray.MenuItem(label,callback,default=i==0) for i,(label,callback) in enumerate(zip(TRAY_ITEMS,callbacks))))
+   self.icon=pystray.Icon('DeathAtlasSync',image,'Death Atlas Sync',menu)
+   def ready(icon):icon.visible=True;self.tray_ready.set()
+   self.icon.run_detached(setup=ready)
+  except Exception:self.icon=None;self.tray_ready.set()
+ def configure(self):
+  self.root.deiconify();self.root.lift();self.fit_window()
+ def about(self):
+  dialog=tk.Toplevel(self.root);dialog.title('Acerca de Death Atlas Sync');dialog.resizable(False,False)
+  frame=ttk.Frame(dialog,padding=20);frame.pack(fill='both',expand=True)
+  ttk.Label(frame,text='Death Atlas Sync '+engine.VERSION,font=('Segoe UI',13,'bold')).pack(anchor='w')
+  ttk.Label(frame,text='Por Garkoth\n\nComparte tus muertes y descarga los mapas Global de Death Atlas. Trabaja con WoW cerrado y actualiza el addon para tu próxima sesión. La edición Global se publica a las 06:00 UTC.\n\nNo modifica tu historial ni pide la contraseña de WoW. Mantén el programa abierto; usa Configurar para cambiar la carpeta o Cerrar para detenerlo.\n\nEstado: '+self.last_status,wraplength=430).pack(anchor='w',pady=12)
+  ttk.Button(frame,text='Código y licencia en GitHub',command=lambda:webbrowser.open(SOURCE_URL)).pack(fill='x')
+  ttk.Button(frame,text='Datos y privacidad',command=lambda:webbrowser.open(PRIVACY_URL)).pack(fill='x',pady=5)
+  ttk.Button(frame,text='Licencias incluidas',command=self.licenses).pack(fill='x')
+  ttk.Button(frame,text='OK',command=dialog.destroy).pack(anchor='e',pady=(10,0))
+ def licenses(self):
+  base=Path(getattr(sys,'_MEIPASS',Path(__file__).resolve().parent));files=[base/'LICENSE.txt']+sorted((base/'THIRD_PARTY').rglob('*'));texts=[]
+  for path in files:
+   if path.is_file() and ('LICENSE' in path.name.upper() or path.name.upper().startswith('COPYING')):texts.append(path.relative_to(base).as_posix()+'\n\n'+path.read_text(encoding='utf-8',errors='replace'))
+  window=tk.Toplevel(self.root);window.title('Licencias');window.geometry('680x440')
+  from tkinter.scrolledtext import ScrolledText
+  text=ScrolledText(window,wrap='word',padx=12,pady=12);text.pack(fill='both',expand=True);text.insert('1.0','\n\n--------------------\n\n'.join(texts));text.configure(state='disabled')
+ def window_close(self):
+  if self.icon and not self.paused.is_set():self.root.withdraw()
+  else:self.close()
+ def close(self):
+  self.quit.set();self.paused.set();self.wake.set()
+  if getattr(self,'poll_id',None):
+   try:self.root.after_cancel(self.poll_id)
+   except tk.TclError:pass
+  if self.icon:self.icon.stop()
+  self.root.destroy()
+ def poll(self):
+  try:
+   while True:
+    value=self.messages.get_nowait();kind=value[0]
+    if kind=='discovered' and value[3]==self.scan_generation:self.scanning=False;self.set_candidates(value[1],value[2])
+    elif kind=='discovery_failed' and value[1]==self.scan_generation:self.scanning=False;self.status.set('No se completó la búsqueda. Usa Elegir carpeta.')
+    elif kind=='connected':
+     self.set_busy(False);self.paused.clear();self.last_error='';self.last_status='Conectado. Última sincronización: '+time.strftime('%H:%M');self.status.set(self.last_status)
+     self.root.withdraw();messagebox.showinfo('Death Atlas Sync','Sync está corriendo en segundo plano.\n\nLo encontrarás en la bandeja de iconos de Windows.\nGracias por usar Death Atlas Sync.',parent=self.root)
+    elif kind=='setup_error':
+     self.set_busy(False);self.last_status=value[1];self.status.set(value[1]);self.configure();messagebox.showerror('No se pudo iniciar Sync',value[1],parent=self.root);self.fit_window()
+    elif kind=='status':self.last_status=value[1]
+    elif kind=='resume_background':self.paused.clear();self.wake.set();self.root.withdraw()
+    elif kind=='background_error':
+     self.last_status=value[1]
+     if self.icon and value[1]!=self.last_error:
+      try:self.icon.notify('No se pudo actualizar. Se reintentará automáticamente. Revisa Acerca de para más información.','Death Atlas Sync')
+      except Exception:pass
+     self.last_error=value[1]
+    elif kind=='configure':self.configure()
+    elif kind=='about':self.about()
+    elif kind=='exit':self.close();return
+  except queue.Empty:pass
+  self.poll_id=self.root.after(100,self.poll)
+ def loop(self):
+  signature=None
+  while not self.quit.is_set():
+   force=self.wake.wait(60);self.wake.clear()
+   if self.quit.is_set():return
+   if self.paused.is_set() or not self.state.get('enabled') or not self.state.get('selected'):continue
+   try:
+    with self.operation:
+     if self.paused.is_set() or self.quit.is_set():continue
+     profile=dict(self.state['selected']);saved=Path(profile['saved']);stat=saved.stat();current=(str(saved),stat.st_mtime_ns,stat.st_size,engine.refresh_slot())
+     if engine.data.wow_running():self.messages.put(('status','Esperando a que cierres WoW.'));continue
+     if current!=signature or force:
+      engine.sync_profile(profile,self.state,self.store,self.service,lambda:self.paused.is_set() or self.quit.is_set());signature=current
+      self.messages.put(('status','Actualizado a las '+time.strftime('%H:%M')+'.'))
+   except Exception as exc:self.messages.put(('background_error',engine.describe_error(exc)))
+
+def main():
+ parser=argparse.ArgumentParser();parser.add_argument('--background',action='store_true');parser.add_argument('--service',default=engine.DEFAULT_SERVICE);parser.add_argument('--self-test-output');args=parser.parse_args()
+ if args.self_test_output:
+  root=tk.Tk();root.withdraw();root.update();root.destroy();base=Path(getattr(sys,'_MEIPASS',Path(__file__).resolve().parent));Path(args.self_test_output).write_text(json.dumps({'version':engine.VERSION,'tk':True,'dpapi':engine.protect(engine.protect(b'fixture'),True)==b'fixture','embeddedLicense':(base/'LICENSE.txt').is_file(),'embeddedThirdParty':(base/'THIRD_PARTY').is_dir()}));return
+ mutex=None
+ if os.name=='nt':
+  ctypes.windll.kernel32.CreateMutexW.restype=ctypes.c_void_p;mutex=ctypes.windll.kernel32.CreateMutexW(None,False,'Local\\DeathAtlasSync')
+  if ctypes.windll.kernel32.GetLastError()==183:
+   messagebox.showinfo('Death Atlas Sync','Sync ya está abierto. Usa Configurar en su icono de la bandeja de Windows.');return
+ root=tk.Tk()
+ try:
+  path=Path(os.environ.get('LOCALAPPDATA',str(Path.home()))) / 'GarkGames' / 'DeathAtlasSync' / 'settings.dpapi'
+  App(root,engine.Settings(path),engine.endpoint(args.service),args.background);root.mainloop()
+ except Exception:
+  messagebox.showerror('Death Atlas Sync','No se pudo abrir la configuración. Se conservó el archivo existente.');root.destroy()
+ finally:
+  if mutex:ctypes.windll.kernel32.CloseHandle(ctypes.c_void_p(mutex))
+if __name__=='__main__':main()

@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.exe
+*.dpapi
+*.sqlite*
+*.db*
+.env*
+.private/
+.test-fixtures/
+build/
+dist/
+*.spec
