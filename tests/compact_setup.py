@@ -40,7 +40,7 @@ class CompactSetup(unittest.TestCase):
    return {'sent':1,'cached':True}
   with patch.object(app.engine,'sync_profile',side_effect=sync) as transport:
    self.ui.start();self.wait();self.assertEqual(transport.call_count,1)
-  self.assertTrue(self.store.writes[-1]['enabled']);self.assertFalse(self.ui.paused.is_set());self.assertEqual(self.root.state(),'withdrawn');self.assertIn('Gracias',self.mocks[3].call_args.args[1])
+  self.assertTrue(self.store.writes[-1]['enabled']);self.assertFalse(self.ui.paused.is_set());self.assertEqual(self.root.state(),'withdrawn');self.assertEqual(app.tr('success'),self.mocks[3].call_args.args[1])
  def test_error_keeps_configuration_and_does_not_claim_success(self):
   self.ui.set_candidates(PROFILES[:1])
   with patch.object(app.engine,'sync_profile',side_effect=app.engine.SyncError('Fixture connection failure')),patch.object(self.ui,'configure') as show:
@@ -63,8 +63,29 @@ class CompactSetup(unittest.TestCase):
    next(w for w in buttons if 'GitHub' in w.cget('text')).invoke();opened.assert_called_once_with(app.SOURCE_URL)
   self.ui.licenses();self.assertEqual(len([w for w in self.root.winfo_children() if isinstance(w,app.tk.Toplevel)]),2)
  def test_window_size_and_tray_menu(self):
-  self.ui.set_candidates(PROFILES);self.root.update()
+  self.ui.set_candidates(PROFILES);self.root.deiconify();self.root.update()
   self.assertGreaterEqual(int(self.root.geometry().split('x')[1].split('+')[0]),self.ui.panel.winfo_reqheight())
-  self.assertEqual(app.TRAY_ITEMS,('Configurar','Acerca de','Cerrar'))
+  self.assertEqual(app.tray_labels(),tuple(app.tr(key) for key in ('configure','about','close')))
+
+ def test_startup_default_off_and_no_registry_write(self):
+  self.assertFalse(self.ui.autostart.get());self.ui.set_candidates(PROFILES[:1])
+  with patch.object(app.engine,'sync_profile',return_value={}),patch.object(app.engine,'startup') as startup:
+   self.ui.start();self.wait();startup.assert_not_called()
+  self.assertFalse(self.store.writes[-1]['startup'])
+ def test_startup_opt_in_is_saved_after_success(self):
+  self.ui.set_candidates(PROFILES[:1]);self.ui.autostart.set(True)
+  with patch.object(app.engine,'sync_profile',return_value={}),patch.object(app.engine,'startup') as startup:
+   self.ui.start();self.wait();startup.assert_called_once_with(True)
+  self.assertTrue(self.store.writes[-1]['startup'])
+ def test_existing_startup_can_be_disabled(self):
+  self.ui.state['startup']=True;self.ui.autostart.set(False);self.ui.set_candidates(PROFILES[:1])
+  with patch.object(app.engine,'sync_profile',return_value={}),patch.object(app.engine,'startup') as startup:
+   self.ui.start();self.wait();startup.assert_called_once_with(False)
+  self.assertFalse(self.store.writes[-1]['startup'])
+ def test_startup_error_does_not_claim_success(self):
+  self.ui.set_candidates(PROFILES[:1]);self.ui.autostart.set(True)
+  with patch.object(app.engine,'sync_profile',return_value={}),patch.object(app.engine,'startup',side_effect=PermissionError),patch.object(self.ui,'configure'):
+   self.ui.start();self.wait()
+  self.assertFalse(self.ui.state['enabled']);self.assertTrue(self.ui.paused.is_set());self.assertIn('[STARTUP]',self.mocks[4].call_args.args[1]);self.assertFalse(self.mocks[3].called)
 
 if __name__=='__main__':unittest.main()

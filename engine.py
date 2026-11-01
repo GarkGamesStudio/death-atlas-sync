@@ -7,7 +7,7 @@ from urllib.request import Request,build_opener
 import deathatlas as data
 DEFAULT_SERVICE='https://garkgames.com/api/deathatlas'
 POLICY='2026-10-31'
-VERSION='0.3.8'
+VERSION='0.3.9'
 class SyncError(ValueError):pass
 
 def consented(state):
@@ -94,22 +94,37 @@ def local_check(profile):
  except (ValueError,UnicodeError,TypeError,AttributeError):raise CheckError('SAVE_INVALID','El guardado está incompleto o contiene datos no compatibles. Se conserva sin modificar; requiere revisión.') from None
 
 def describe_error(exc):
- """Safe diagnostics: never include response bodies, credentials or local paths."""
+ from localization import tr
  from urllib.error import URLError
  import socket,ssl
- if isinstance(exc,CheckError):return '['+exc.code+'] '+str(exc)
- if isinstance(exc,HTTPError):
-  messages={401:'Conexión no autorizada o revocada. Requiere revisión del operador.',403:'El servidor rechazó la instalación o sus permisos.',404:'La API no está disponible en esta dirección. Comprueba que el servicio ya esté publicado.',409:'Conflicto de instalación o registro. No borres la configuración; requiere revisión.',413:'La consulta o el envío supera el límite del servicio.',429:'Límite temporal. Sync volverá a intentarlo automáticamente.',503:'Servicio no disponible o altas cerradas. Reintenta cuando Gark Games lo active.'}
-  return '[HTTP_'+str(exc.code)+'] '+messages.get(exc.code,'El servicio rechazó la solicitud. Se reintentará sin borrar el historial.')
- reason=exc.reason if isinstance(exc,URLError) else exc
- if isinstance(reason,ssl.SSLError):return '[TLS] No se pudo verificar la conexión segura. Revisa la fecha de Windows y la conexión; no desactives HTTPS.'
- if isinstance(reason,(TimeoutError,socket.timeout)):return '[TIMEOUT] El servidor tardó demasiado. Se reintentará automáticamente.'
- if isinstance(exc,URLError):return '[NETWORK] No se pudo conectar. Revisa Internet; también puede estar inactivo el servicio.'
- if isinstance(exc,PermissionError):return '[FILE_ACCESS] No se pudo acceder a un archivo. Revisa los permisos de la carpeta elegida.'
- if isinstance(exc,FileNotFoundError):return '[FILE_MISSING] Falta un archivo. Vuelve a detectar la instalación y la cuenta.'
- if isinstance(exc,SyncError):return '[SYNC] '+str(exc)
- if isinstance(exc,ValueError):return '[DATA_INVALID] La respuesta o los datos no son compatibles. Actualiza Sync o solicita revisión; se conserva el guardado.'
- return '[UNEXPECTED] No se pudo completar la operación. Reintenta; si persiste, comunica este código y la versión de Sync.'
+ code='UNEXPECTED';key='error_unexpected'
+ if isinstance(exc,CheckError):
+  code=exc.code
+  key={'WOW_OPEN':'waiting','ADDON_MISSING':'error_file','FILE_TOO_LARGE':'error_size','SCHEMA':'error_invalid','SHARING_OFF':'error_sharing','FILE_CHANGING':'error_changed','SAVE_MISSING':'error_file','FILE_ACCESS':'error_access','SAVE_INVALID':'error_invalid','TRAY':'tray_failed','STARTUP':'startup_failed'}.get(code,'error_invalid')
+ elif isinstance(exc,HTTPError):
+  code='HTTP_'+str(exc.code);key={401:'error_auth',403:'error_auth',404:'error_noapi',409:'error_auth',413:'error_size',429:'error_rate',503:'error_service'}.get(exc.code,'error_service')
+ else:
+  reason=exc.reason if isinstance(exc,URLError) else exc
+  if isinstance(reason,ssl.SSLError):code,key='TLS','error_tls'
+  elif isinstance(reason,(TimeoutError,socket.timeout)):code,key='TIMEOUT','error_timeout'
+  elif isinstance(exc,URLError):code,key='NETWORK','error_network'
+  elif isinstance(exc,PermissionError):code,key='FILE_ACCESS','error_access'
+  elif isinstance(exc,FileNotFoundError):code,key='FILE_MISSING','error_file'
+  elif isinstance(exc,SyncError):
+   code='SYNC'
+   key={
+    'Esperando a que cierres WoW':'waiting','Cierra WoW antes de desconectar':'waiting',
+    'Sincronización pausada':'error_paused','WoW se abrió o la sincronización se pausó; caché pendiente':'error_paused',
+    'Revisa la política de datos y guarda de nuevo el permiso de compartir':'error_policy','La política cambió; actualiza Sync y revisa el consentimiento':'error_policy',
+    'La conexión fue revocada; contacta al operador para recuperarla':'error_revoked',
+    'La edición cambió durante la descarga; se conserva la caché anterior y se reintentará':'error_mixed',
+    'Inicio automático disponible en Windows':'error_runtime','El inicio automático requiere la aplicación EXE empaquetada':'error_runtime',
+    'Las credenciales requieren Windows DPAPI':'error_runtime','No se pudieron proteger las credenciales de Windows':'error_saveconfig',
+    'Configuración demasiado grande':'error_saveconfig','Configuración no compatible; no se reemplazó':'error_saveconfig','Demasiadas cuentas en la configuración; no se reemplazó el archivo':'error_saveconfig',
+    'Respuesta demasiado grande':'error_size','Archivo demasiado grande':'error_size',
+   }.get(str(exc),'error_invalid')
+  elif isinstance(exc,ValueError):code,key='DATA_INVALID','error_invalid'
+ return '['+code+'] '+tr(key)
 
 def diagnose(profile,state,service=DEFAULT_SERVICE):
  """Explicit setup check: local read plus public health GET only. No registration/upload/write."""

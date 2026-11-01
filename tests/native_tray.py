@@ -14,7 +14,7 @@ with patch.object(app.App,'loop'),patch.object(app.engine,'discover',return_valu
   until=time.monotonic()+5
   while not ui.tray_ready.is_set() and time.monotonic()<until:root.update();time.sleep(.02)
   assert ui.tray_ready.is_set() and ui.icon and ui.icon.visible,'Windows tray icon must be visible'
-  items=list(ui.icon.menu.items);assert tuple(item.text for item in items)==app.TRAY_ITEMS
+  items=list(ui.icon.menu.items);assert tuple(item.text for item in items)==app.tray_labels()
   for item,expected in zip(items,('configure','about','exit')):
    while not ui.messages.empty():ui.messages.get_nowait()
    item(ui.icon);assert ui.messages.get(timeout=1)[0]==expected
