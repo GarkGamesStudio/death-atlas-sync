@@ -4,6 +4,7 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import engine
+from branding import apply_window_icon, tray_image
 from localization import tr, font_family
 SOURCE_URL = 'https://github.com/GarkGamesStudio/death-atlas-sync'
 PRIVACY_URL = 'https://garkgames.com/death-atlas/privacy/'
@@ -32,6 +33,7 @@ class App:
         self.candidates = []
         self.last_error = ''
         self.last_status = tr('last_initial')
+        self.window_icon = apply_window_icon(root)
         root.title('Death Atlas Sync')
         root.minsize(540, 290)
         root.resizable(True, False)
@@ -209,11 +211,7 @@ class App:
     def tray(self):
         try:
             import pystray
-            from PIL import Image, ImageDraw
-            image = Image.new('RGB', (64, 64), '#111a20')
-            draw = ImageDraw.Draw(image)
-            draw.ellipse((8, 8, 56, 56), outline='#cbf276', width=4)
-            draw.polygon([(39, 15), (34, 35), (19, 46), (27, 27)], fill='#cbf276')
+            image = tray_image()
             callbacks = (lambda *_: self.messages.put(('configure',)), lambda *_: self.messages.put(('about',)), lambda *_: self.messages.put(('exit',)))
             menu = pystray.Menu(*(pystray.MenuItem(label, callback, default=i == 0) for i, (label, callback) in enumerate(zip(tray_labels(), callbacks))))
             self.icon = pystray.Icon('DeathAtlasSync', image, 'Death Atlas Sync', menu)
@@ -237,6 +235,7 @@ class App:
         dialog.resizable(False, False)
         frame = ttk.Frame(dialog, padding=20)
         frame.pack(fill='both', expand=True)
+        ttk.Label(frame, image=self.window_icon).pack(anchor='w', pady=(0, 6))
         ttk.Label(frame, text='Death Atlas Sync ' + engine.VERSION, font=(font_family(), 13, 'bold')).pack(anchor='w')
         ttk.Label(frame, text=tr('about_text', status=self.last_status), wraplength=430).pack(anchor='w', pady=12)
         ttk.Button(frame, text=tr('github'), command=lambda: webbrowser.open(SOURCE_URL)).pack(fill='x')
@@ -366,11 +365,12 @@ def main():
     if args.self_test_output:
         root = tk.Tk()
         root.withdraw()
+        brand_icon = apply_window_icon(root)
         root.update()
         root.destroy()
         base = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
         import localization
-        Path(args.self_test_output).write_text(json.dumps({'version': engine.VERSION, 'tk': True, 'dpapi': engine.protect(engine.protect(b'fixture'), True) == b'fixture', 'embeddedLicense': (base / 'LICENSE.txt').is_file(), 'embeddedThirdParty': (base / 'THIRD_PARTY').is_dir(), 'language': localization.LANGUAGE, 'localeCount': len(localization.LOCALES), 'catalogKeys': len(localization.CATALOG)}))
+        Path(args.self_test_output).write_text(json.dumps({'version': engine.VERSION, 'tk': True, 'dpapi': engine.protect(engine.protect(b'fixture'), True) == b'fixture', 'embeddedLicense': (base / 'LICENSE.txt').is_file(), 'embeddedThirdParty': (base / 'THIRD_PARTY').is_dir(), 'language': localization.LANGUAGE, 'localeCount': len(localization.LOCALES), 'catalogKeys': len(localization.CATALOG), 'brandAssets': all((base/'assets'/name).is_file() for name in ('DeathAtlas.ico','Icon32.png','Icon64.png')), 'windowIconLoaded': True}))
         return
     mutex = None
     if os.name == 'nt':

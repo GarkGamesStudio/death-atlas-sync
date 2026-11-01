@@ -1,3 +1,9 @@
+# 0.3.10 — selected Death Atlas icon
+
+- Selected C parchment-map/skull-pin emblem in EXE resources, windows, About and Windows tray.
+- Assets embedded in the single EXE; source artwork notices retained in the repository.
+- Existing languages, optional Windows startup, consent and sync/data behavior preserved.
+
 # 0.3.9 — Windows startup and automatic language
 
 - Optional Start automatically with Windows checkbox, off for new installations; preserves earlier opt-in and supports removing it.

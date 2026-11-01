@@ -7,7 +7,7 @@ from urllib.request import Request,build_opener
 import deathatlas as data
 DEFAULT_SERVICE='https://garkgames.com/api/deathatlas'
 POLICY='2026-10-31'
-VERSION='0.3.9'
+VERSION='0.3.10'
 class SyncError(ValueError):pass
 
 def consented(state):

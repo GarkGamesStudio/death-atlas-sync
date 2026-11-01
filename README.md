@@ -1,6 +1,10 @@
-# Death Atlas Sync 0.3.9
+# Death Atlas Sync 0.3.10
 
 Optional Windows x64 companion for Death Atlas, by Garkoth.
+
+## Selected icon
+
+Uses the original parchment map and red skull-pin emblem selected by Garkoth. Shared by the EXE resource, Windows title bars, About window and tray. The matching addon icon is included in Death Atlas 0.6.5. Assets are generated project artwork, not extracted Blizzard artwork, and are provided under the project MIT license.
 
 ## One file for players
 
@@ -54,7 +58,7 @@ python tests/localized_windows.py
 
 ```text
 python -m pip install -r requirements-build.txt
-python -m PyInstaller --noconfirm --onefile --windowed --hidden-import pystray._win32 --add-data "THIRD_PARTY:THIRD_PARTY" --add-data "LICENSE.txt:." --add-data "locales:locales" --name DeathAtlasSync app.py
+python -m PyInstaller --noconfirm --onefile --windowed --hidden-import pystray._win32 --add-data "THIRD_PARTY:THIRD_PARTY" --add-data "LICENSE.txt:." --add-data "locales:locales" --add-data "assets:assets" --icon "assets/DeathAtlas.ico" --name DeathAtlasSync app.py
 ```
 
 Run from the repository root. Output: `dist/DeathAtlasSync.exe`. The versioned requirements pin the build dependencies; this is not a bit-for-bit reproducibility guarantee or a code-signing claim. The EXE self-test `--self-test-output <path>` checks Tk, DPAPI and embedded licenses without connecting or changing settings.

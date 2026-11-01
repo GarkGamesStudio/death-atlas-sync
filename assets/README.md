@@ -1,0 +1,1 @@
+Selected C emblem: original project-generated parchment map with red skull-pin, chosen by Garkoth. These size and format derivatives are under the project MIT license. No art extracted from Blizzard clients is included.
