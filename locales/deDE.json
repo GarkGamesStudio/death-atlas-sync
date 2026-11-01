@@ -53,5 +53,11 @@
   "error_saveconfig": "Einstellungen konnten nicht geschützt oder gespeichert werden. Die vorherige Datei blieb erhalten.",
   "close": "Schließen",
   "about": "Über",
-  "last_initial": "Noch nicht synchronisiert."
+  "last_initial": "Noch nicht synchronisiert.",
+  "erasure_button": "Geteilte Daten löschen",
+  "erasure_confirm": "Beiträge dieser WoW-Installation entfernen? Sync stellt Uploads ein. Die Beiträge werden aus der nächsten erfolgreich veröffentlichten Tagesausgabe um 06:00 UTC entfernt. Der lokale Verlauf bleibt erhalten. Alte Serverkopien verfallen nach der Bereinigung; bereits heruntergeladene Kopien anderer Nutzer lassen sich nicht zurückholen. Dies kann nicht rückgängig gemacht werden.",
+  "erasure_queued": "Anfrage angenommen. Uploads gestoppt. Entfernung mit der nächsten erfolgreichen Tagesausgabe um 06:00 UTC.",
+  "erasure_completed": "Entfernung in der veröffentlichten Ausgabe abgeschlossen. Uploads bleiben gestoppt.",
+  "erasure_blocked": "Diese Installation hat die Entfernung ihrer Beiträge beantragt. Uploads gestoppt. Unter Info kannst du die Anfrage erneut senden oder prüfen.",
+  "erasure_no_key": "Kein gespeicherter Schlüssel für diese Installation. Wende dich an den Support, ohne Schlüssel oder Verlauf zu senden."
 }

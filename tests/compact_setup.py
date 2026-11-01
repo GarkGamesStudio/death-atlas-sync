@@ -67,6 +67,17 @@ class CompactSetup(unittest.TestCase):
   self.assertGreaterEqual(int(self.root.geometry().split('x')[1].split('+')[0]),self.ui.panel.winfo_reqheight())
   self.assertEqual(app.tray_labels(),tuple(app.tr(key) for key in ('configure','about','close')))
 
+ def test_erasure_cancel_performs_no_operation(self):
+  self.ui.state['selected']=PROFILES[0]
+  with patch.object(app.messagebox,'askyesno',return_value=False),patch.object(app.engine,'request_erasure') as request:
+   self.ui.erase_shared_data();request.assert_not_called()
+  self.assertEqual(self.store.writes,[])
+ def test_erasure_requires_confirmation_and_stops_background_loop(self):
+  self.ui.state['selected']=PROFILES[0];self.ui.paused.clear()
+  with patch.object(app.messagebox,'askyesno',return_value=True),patch.object(app.engine,'request_erasure',return_value={'erasure':'queued'}) as request:
+   self.ui.erase_shared_data();self.wait();request.assert_called_once()
+  self.assertTrue(self.ui.paused.is_set());self.assertEqual(self.ui.last_status,app.tr('erasure_queued'))
+
  def test_startup_default_off_and_no_registry_write(self):
   self.assertFalse(self.ui.autostart.get());self.ui.set_candidates(PROFILES[:1])
   with patch.object(app.engine,'sync_profile',return_value={}),patch.object(app.engine,'startup') as startup:

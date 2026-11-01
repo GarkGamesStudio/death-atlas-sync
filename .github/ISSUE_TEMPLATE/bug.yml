@@ -1,0 +1,33 @@
+name: Report a bug / Reportar un error
+description: Death Atlas addon, Windows Sync, or web dashboard
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: "Beta: official WoW Forever validation is pending. Do not upload SavedVariables, settings.dpapi, tokens, full histories, or private account paths. Crop screenshots before attaching them."
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component / Componente
+      options: [WoW addon, Windows Sync, Web dashboard]
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version and client / Versión y cliente
+      description: "Example: addon 0.6.6, official Forever; Sync 0.4.0, Windows 11. No account names."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps and result / Pasos y resultado
+      description: What did you do, what did you expect, and what happened?
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Error code / Código de error
+      description: Optional short error code or cropped screenshot. Review it for private data first.

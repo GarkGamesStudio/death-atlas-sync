@@ -241,7 +241,28 @@ class App:
         ttk.Button(frame, text=tr('github'), command=lambda: webbrowser.open(SOURCE_URL)).pack(fill='x')
         ttk.Button(frame, text=tr('privacy'), command=lambda: webbrowser.open(PRIVACY_URL)).pack(fill='x', pady=5)
         ttk.Button(frame, text=tr('licenses'), command=self.licenses).pack(fill='x')
+        ttk.Button(frame, text=tr('erasure_button'), command=self.erase_shared_data).pack(fill='x', pady=(8, 0))
         ttk.Button(frame, text=tr('ok'), command=dialog.destroy).pack(anchor='e', pady=(10, 0))
+
+    def erase_shared_data(self):
+        if self.busy:
+            return
+        profile = self.state.get('selected')
+        if not profile:
+            messagebox.showerror(tr('erasure_button'), tr('erasure_no_key'), parent=self.root)
+            return
+        if not messagebox.askyesno(tr('erasure_button'), tr('erasure_confirm'), parent=self.root):
+            return
+        self.paused.set()
+        self.set_busy(True)
+        def task():
+            try:
+                with self.operation:
+                    result = engine.request_erasure(profile, self.state, self.store, self.service)
+                self.messages.put(('erasure_result', tr('erasure_'+result['erasure'])))
+            except Exception as exc:
+                self.messages.put(('erasure_error', engine.describe_error(exc)))
+        threading.Thread(target=task, daemon=True).start()
 
     def licenses(self):
         base = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
@@ -306,6 +327,12 @@ class App:
                     self.fit_window()
                 elif kind == 'status':
                     self.last_status = value[1]
+                elif kind in ('erasure_result', 'erasure_error'):
+                    self.set_busy(False)
+                    self.last_status = value[1]
+                    self.status.set(value[1])
+                    show = messagebox.showinfo if kind == 'erasure_result' else messagebox.showerror
+                    show(tr('erasure_button'), value[1], parent=self.root)
                 elif kind == 'resume_background':
                     self.paused.clear()
                     self.wake.set()

@@ -1,3 +1,11 @@
+# 0.4.0 Beta — authenticated contribution removal
+
+- About includes an explicitly confirmed request to remove the selected installation's shared contributions. Uses the existing protected key; no key is sent by email.
+- Stops uploads before the request, preserves retry credentials, and prevents a later setup click from silently resuming an installation that requested removal.
+- Next successful daily edition removes contributions. Local history is preserved. Other downloaded copies cannot be recalled.
+- New confirmation and diagnostic strings in all eleven languages. Data policy 2026-11-01 requires reviewing consent again.
+- Four engine tests, fourteen real Tk setup tests and 37 synthetic HTTP/D1/R2/DPAPI assertions passed. Official Forever release validation remains pending.
+
 # 0.3.10 — selected Death Atlas icon
 
 - Selected C parchment-map/skull-pin emblem in EXE resources, windows, About and Windows tray.

@@ -53,5 +53,11 @@
   "error_saveconfig": "Impossible de protéger ou d’enregistrer les paramètres. Le fichier précédent a été conservé.",
   "close": "Fermer",
   "about": "À propos",
-  "last_initial": "Pas encore synchronisé."
+  "last_initial": "Pas encore synchronisé.",
+  "erasure_button": "Supprimer les données partagées",
+  "erasure_confirm": "Retirer les contributions de cette installation de WoW ? Sync cessera tout envoi. Elles seront retirées de la prochaine édition quotidienne publiée avec succès à 06:00 UTC. Votre historique local est conservé. Les anciennes copies du serveur expirent après nettoyage ; les copies téléchargées par autrui ne peuvent pas être rappelées. Cette action est irréversible.",
+  "erasure_queued": "Demande acceptée. Envois arrêtés. Retrait lors de la prochaine édition publiée avec succès à 06:00 UTC.",
+  "erasure_completed": "Suppression effectuée dans l’édition publiée. Les envois restent arrêtés.",
+  "erasure_blocked": "Cette installation a demandé le retrait de ses contributions. Envois arrêtés. Réessayez ou consultez la demande dans À propos.",
+  "erasure_no_key": "Aucune clé enregistrée pour cette installation. Contactez l’assistance sans envoyer de clé ni votre historique."
 }

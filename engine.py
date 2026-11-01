@@ -6,8 +6,8 @@ from urllib.error import HTTPError
 from urllib.request import Request,build_opener
 import deathatlas as data
 DEFAULT_SERVICE='https://garkgames.com/api/deathatlas'
-POLICY='2026-10-31'
-VERSION='0.3.10'
+POLICY='2026-11-01'
+VERSION='0.4.0'
 class SyncError(ValueError):pass
 
 def consented(state):
@@ -100,7 +100,7 @@ def describe_error(exc):
  code='UNEXPECTED';key='error_unexpected'
  if isinstance(exc,CheckError):
   code=exc.code
-  key={'WOW_OPEN':'waiting','ADDON_MISSING':'error_file','FILE_TOO_LARGE':'error_size','SCHEMA':'error_invalid','SHARING_OFF':'error_sharing','FILE_CHANGING':'error_changed','SAVE_MISSING':'error_file','FILE_ACCESS':'error_access','SAVE_INVALID':'error_invalid','TRAY':'tray_failed','STARTUP':'startup_failed'}.get(code,'error_invalid')
+  key={'ERASURE':'erasure_blocked','NO_KEY':'erasure_no_key','WOW_OPEN':'waiting','ADDON_MISSING':'error_file','FILE_TOO_LARGE':'error_size','SCHEMA':'error_invalid','SHARING_OFF':'error_sharing','FILE_CHANGING':'error_changed','SAVE_MISSING':'error_file','FILE_ACCESS':'error_access','SAVE_INVALID':'error_invalid','TRAY':'tray_failed','STARTUP':'startup_failed'}.get(code,'error_invalid')
  elif isinstance(exc,HTTPError):
   code='HTTP_'+str(exc.code);key={401:'error_auth',403:'error_auth',404:'error_noapi',409:'error_auth',413:'error_size',429:'error_rate',503:'error_service'}.get(exc.code,'error_service')
  else:
@@ -153,6 +153,7 @@ def sync_profile(profile,state,store,service=DEFAULT_SERVICE,stopped=lambda:Fals
  if not consented(state):raise SyncError('Revisa la política de datos y guarda de nuevo el permiso de compartir')
  service=endpoint(service);key=service+'|'+install
  credentials=state.setdefault('profiles',{}).get(key)
+ if credentials and credentials.get('erasureRequested'):raise CheckError('ERASURE','Erasure requested')
  if credentials and credentials.get('revoked'):raise SyncError('La conexión fue revocada; contacta al operador para recuperarla')
  if not credentials:
   credentials={'token':secrets.token_hex(32),'policy':POLICY,'uploaded':{},'registered':False}
@@ -205,8 +206,22 @@ def revoke(profile,state,store,service=DEFAULT_SERVICE):
  if data.wow_running():raise SyncError('Cierra WoW antes de desconectar')
  key=endpoint(service)+'|'+identity(profile['saved']);credentials=state.get('profiles',{}).get(key)
  if credentials and credentials.get('registered') and not credentials.get('revoked'):
-  api(service,'/v1/revoke',{},credentials['token']);credentials['revoked']=True;credentials['token']='';store.write(state)
+  api(service,'/v1/revoke',{},credentials['token']);credentials['revoked']=True;store.write(state)
  state['enabled']=False;state['consent']=False;store.write(state)
+
+def request_erasure(profile,state,store,service=DEFAULT_SERVICE):
+ """Explicit user action; retains the DPAPI key for idempotent retry/status on a revoked device."""
+ key=endpoint(service)+'|'+identity(profile['saved'])
+ credentials=state.get('profiles',{}).get(key)
+ if not credentials or not credentials.get('registered') or not credentials.get('token'):
+  raise CheckError('NO_KEY','No registered key')
+ # Stop future uploads even if the request times out after the server accepts it.
+ state['enabled']=False;state['consent']=False;credentials['erasureRequested']=True;store.write(state)
+ result=api(service,'/v1/erase',{'confirm':True},credentials['token'])
+ if not isinstance(result,dict) or result.get('erasure') not in ('queued','completed'):
+  raise SyncError('Invalid erasure response')
+ credentials['erasureStatus']=result['erasure'];credentials['revoked']=True;store.write(state)
+ return result
 
 def startup(enabled,exe=None):
  if os.name!='nt':raise SyncError('Inicio automático disponible en Windows')

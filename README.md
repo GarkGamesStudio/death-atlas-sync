@@ -1,10 +1,10 @@
-# Death Atlas Sync 0.3.10
+# Death Atlas Sync 0.4.0
 
 Optional Windows x64 companion for Death Atlas, by Garkoth.
 
 ## Selected icon
 
-Uses the original parchment map and red skull-pin emblem selected by Garkoth. Shared by the EXE resource, Windows title bars, About window and tray. The matching addon icon is included in Death Atlas 0.6.5. Assets are generated project artwork, not extracted Blizzard artwork, and are provided under the project MIT license.
+Uses the original parchment map and red skull-pin emblem selected by Garkoth. Shared by the EXE resource, Windows title bars, About window and tray. The matching addon icon is included in Death Atlas 0.6.6. Assets are generated project artwork, not extracted Blizzard artwork, and are provided under the project MIT license.
 
 ## One file for players
 
@@ -32,7 +32,7 @@ Startup uses only this application's value under the current user's [Windows Run
 
 Sync never asks for a WoW or Battle.net password, reads game memory, executes saved/downloaded Lua, or modifies SavedVariables. It validates bounded JSON and writes CommunityData.lua while WoW is closed, retaining the previous cache. Local history is limited to 5,000 records; uploads use batches of at most 25. The addon cache contains up to 30 days / 10,000 cells / 8 MiB, with a narrower realm fallback if necessary.
 
-Existing historical contributions and minimal receipts have no automatic expiry under policy 2026-10-31. Closing the application stops this running process but does not erase earlier contributions. This minimal UI does not provide a server-side erasure action. See [data and privacy](https://garkgames.com/death-atlas/privacy/).
+Historical contributions have no automatic expiry under policy 2026-11-01. Closing Sync does not erase them. About → Remove shared data confirms an authenticated removal request for the selected installation. Uploads stop even if the response is lost. Retry the same action to check completion; keep your saved connection key. Removal appears in the next successful daily edition at 06:00 UTC. Local history is untouched; copies downloaded by others cannot be recalled. See [data and privacy](https://garkgames.com/death-atlas/privacy/) for old server copies and recovery limits.
 
 Reports are player-provided, not Blizzard-certified. The owner confirmed the addon/Global round trip in a local Forever lab. Official Forever compatibility and broad language coverage are not claimed verified. Public service enrollment remains closed while release operations are completed; an unknown installation may receive a clear service error even with a correct folder. Publishing the source repository does not open enrollment or publish executable downloads on the website.
 
@@ -62,3 +62,7 @@ python -m PyInstaller --noconfirm --onefile --windowed --hidden-import pystray._
 ```
 
 Run from the repository root. Output: `dist/DeathAtlasSync.exe`. The versioned requirements pin the build dependencies; this is not a bit-for-bit reproducibility guarantee or a code-signing claim. The EXE self-test `--self-test-output <path>` checks Tk, DPAPI and embedded licenses without connecting or changing settings.
+
+## Retirar tus aportes
+
+En Acerca de, Eliminar datos compartidos solicita el retiro de la instalación seleccionada. Requiere confirmación y su clave DPAPI guardada; no se envían claves por correo. Detiene los envíos incluso si la respuesta se pierde. Repetir el botón consulta/reintenta de forma segura. El servicio retira los aportes en la siguiente edición diaria exitosa a las 06:00 UTC. No borra SavedVariables ni el historial local. Las copias descargadas por otros usuarios no pueden retirarse. No borres tu configuración antes de completar el trámite. Consulta la política web para la conservación de copias antiguas.

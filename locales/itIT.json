@@ -53,5 +53,11 @@
   "error_saveconfig": "Impossibile proteggere o salvare le impostazioni. Il file precedente è stato conservato.",
   "close": "Chiudi",
   "about": "Informazioni",
-  "last_initial": "Non ancora sincronizzato."
+  "last_initial": "Non ancora sincronizzato.",
+  "erasure_button": "Elimina i dati condivisi",
+  "erasure_confirm": "Rimuovere i contributi di questa installazione di WoW? Sync interromperà gli invii. Saranno rimossi dalla prossima edizione giornaliera pubblicata correttamente alle 06:00 UTC. La cronologia locale resta intatta. Le vecchie copie del server scadono dopo la pulizia; quelle già scaricate da altri non possono essere richiamate. Non è possibile annullare.",
+  "erasure_queued": "Richiesta accettata. Invii interrotti. Rimozione nella prossima edizione pubblicata correttamente alle 06:00 UTC.",
+  "erasure_completed": "Rimozione completata nell’edizione pubblicata. Gli invii restano interrotti.",
+  "erasure_blocked": "Questa installazione ha richiesto la rimozione dei contributi. Invii interrotti. Usa Informazioni per riprovare o verificare la richiesta.",
+  "erasure_no_key": "Nessuna chiave salvata per questa installazione. Contatta l’assistenza senza inviare chiavi o cronologia."
 }

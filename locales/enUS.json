@@ -53,5 +53,11 @@
   "error_saveconfig": "Could not protect or save settings. The previous file was preserved.",
   "close": "Close",
   "about": "About",
-  "last_initial": "Not synchronized yet."
+  "last_initial": "Not synchronized yet.",
+  "erasure_button": "Remove shared data",
+  "erasure_confirm": "Remove contributions from the selected WoW installation? Sync will stop uploading. Contributions will be removed from the next successful daily edition at 06:00 UTC. Local history is kept. Older server copies expire after cleanup; copies already downloaded by others cannot be recalled. This cannot be undone.",
+  "erasure_queued": "Request accepted. Uploads stopped. Removal is scheduled for the next successful daily edition at 06:00 UTC.",
+  "erasure_completed": "Removal completed in the published edition. Uploads remain stopped.",
+  "erasure_blocked": "This installation requested removal of its contributions. Uploads are stopped. Use About to retry or check the request.",
+  "erasure_no_key": "No saved connection key for this installation. Contact support without sending keys or your history."
 }

@@ -53,5 +53,11 @@
   "error_saveconfig": "No se pudo proteger o guardar la configuración. Se conservó el archivo anterior.",
   "close": "Cerrar",
   "about": "Acerca de",
-  "last_initial": "Todavía no se ha sincronizado."
+  "last_initial": "Todavía no se ha sincronizado.",
+  "erasure_button": "Eliminar datos compartidos",
+  "erasure_confirm": "¿Retirar los aportes de la instalación de WoW seleccionada? Sync dejará de enviar datos. Se retirarán en la próxima edición diaria que se publique correctamente a las 06:00 UTC. Tu historial local se conserva. Las copias antiguas del servidor caducan tras su limpieza; no podemos retirar copias descargadas por otros. No se puede deshacer.",
+  "erasure_queued": "Solicitud aceptada. Envíos detenidos. Se retirarán en la próxima edición diaria publicada correctamente a las 06:00 UTC.",
+  "erasure_completed": "Eliminación completada en la edición publicada. Los envíos siguen detenidos.",
+  "erasure_blocked": "Esta instalación solicitó eliminar sus aportes. Los envíos están detenidos. Usa Acerca de para reintentar o consultar la solicitud.",
+  "erasure_no_key": "No hay una clave guardada para esta instalación. Contacta con soporte sin enviar claves ni tu historial."
 }
