@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   check:
-    name: Check API and daily edition
+    name: Check API and published edition
     runs-on: ubuntu-latest
     timeout-minutes: 4
     steps:

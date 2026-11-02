@@ -1,3 +1,4 @@
+import {probe} from '../src/monitor-core.ts';
 import {test} from 'node:test';import assert from 'node:assert/strict';
 import {checkWithRetry} from '../tools/github-monitor.mjs';
 const now=1793512800000;
@@ -12,4 +13,15 @@ test('one network failure is retried before raising an operational alert',async(
 test('controlled failure exercises actual detector without calling production',async()=>{
  const result=await checkWithRetry({simulate:true,request:async()=>assert.fail('production must not be called'),wait:async()=>{}});
  assert.deepEqual(result,{ok:false,attempt:2,synthetic:true});
+});
+
+const transport=(change={})=>async url=>Response.json(url.endsWith('/health')?{service:'Death Atlas',...change.health}:{schema:1,generated:now/1000,parts:[],...change.manifest});
+
+test('hourly publication has 15 minutes of grace and a bounded first-deployment transition',async()=>{
+ const hourly={health:{publicationIntervalSeconds:3600},manifest:{generated:now/1000-3600}};
+ assert.equal((await probe('https://example.invalid',transport(hourly),now+899000)).ok,true);
+ await assert.rejects(()=>probe('https://example.invalid',transport(hourly),now+900000),/publication_late/);
+ const rollout={health:{publicationIntervalSeconds:3600,publicationStartedAt:now/1000-1},manifest:{generated:now/1000-7200}};
+ assert.equal((await probe('https://example.invalid',transport(rollout),now+899000)).ok,true);
+ await assert.rejects(()=>probe('https://example.invalid',transport(rollout),now+900000));
 });

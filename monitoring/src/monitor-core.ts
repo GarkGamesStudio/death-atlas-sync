@@ -4,9 +4,13 @@ export async function probe(base='https://garkgames.com/api/deathatlas/v1',reque
  const health=await get('/health');if(health.service!=='Death Atlas'||health.maintenance===true||health.uploads===false)throw Error('service');
  const manifest=await get('/files/manifest');
  if(manifest.schema!==1||!Number.isSafeInteger(manifest.generated)||!Array.isArray(manifest.parts))throw Error('manifest');
- const age=(now/1000-manifest.generated)/3600;if(age>30||age<-.1)throw Error('stale');
- const expected=Math.floor((now/1000-21600)/86400)*86400+21600;
- if(now/1000>=expected+3600&&manifest.generated<expected)throw Error('publication_late');
+ const seconds=now/1000,hourly=health.publicationIntervalSeconds===3600;
+ const since=Number(health.publicationStartedAt||0);
+ const rollout=hourly&&since>0&&seconds<(Math.floor(since/3600)+1)*3600+900;
+ const age=(seconds-manifest.generated)/3600;if(age>(hourly&&!rollout?3:30)||age<-.1)throw Error('stale');
+ const interval=hourly?3600:86400,offset=hourly?0:21600,grace=hourly?900:3600;
+ const expected=Math.floor((seconds-offset)/interval)*interval+offset;
+ if(!rollout&&seconds>=expected+grace&&manifest.generated<expected)throw Error('publication_late');
  const sample=manifest.parts[0];
  if(sample){if(!/^editions\/maps\/[a-f0-9]{64}\.json$/.test(sample.key))throw Error('reference');const map=await get('/files/'+sample.key);if(map.schema!==5||map.grid!==0||!Array.isArray(map.cells)||map.cells.length!==sample.cells)throw Error('map');}
  return {ok:true,serviceVersion:health.version,edition:manifest.generated,ageHours:Math.round(age*10)/10,maps:manifest.parts.length};
