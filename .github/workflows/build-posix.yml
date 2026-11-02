@@ -1,6 +1,14 @@
 name: Build macOS and Linux previews
 on:
   workflow_dispatch:
+    inputs:
+      intel_runner:
+        description: Standard Intel runner (alternate when the usual image is queued)
+        type: choice
+        default: macos-15-intel
+        options:
+          - macos-15-intel
+          - macos-26-intel
 permissions:
   contents: read
 jobs:
@@ -11,7 +19,7 @@ jobs:
         include:
           - os: ubuntu-22.04
             target: Linux-x64
-          - os: macos-15-intel
+          - os: ${{ inputs.intel_runner || 'macos-15-intel' }}
             target: macOS-x64
           - os: macos-14
             target: macOS-arm64
