@@ -61,5 +61,19 @@
   "erasure_blocked": "이 설치에서 데이터 삭제를 요청했습니다. 전송이 중지되었습니다. 정보에서 요청을 다시 보내거나 확인하세요.",
   "erasure_no_key": "이 설치의 저장된 연결 키가 없습니다. 키나 기록을 보내지 말고 지원팀에 문의하세요.",
   "platform_preview": "macOS/Linux 미리 보기: WoW와 함께 테스트하지 않았습니다. 트레이 아이콘이 없으면 창을 열어 두거나 최소화하세요. 자동 시작은 포함되지 않습니다.",
-  "foreground_success": "Sync가 연결되었습니다. 창을 열어 두거나 최소화하세요. 창을 닫으면 동기화가 중지됩니다. Death Atlas Sync를 사용해 주셔서 감사합니다."
+  "foreground_success": "Sync가 연결되었습니다. 창을 열어 두거나 최소화하세요. 창을 닫으면 동기화가 중지됩니다. Death Atlas Sync를 사용해 주셔서 감사합니다.",
+  "linux_help": "Linux 도움말",
+  "linux_checking": "보안 저장소 확인 중…",
+  "linux_ready": "키 저장소가 준비되었습니다. 설정으로 돌아가 OK를 눌러 연결하세요.",
+  "linux_unlock": "시스템으로 잠금 해제",
+  "linux_retry": "다시 확인",
+  "linux_explain": "Sync는 데스크톱 키 저장소로 연결 키를 보호합니다. WoW 비밀번호를 요구하지 않습니다. 저장된 설정은 유지됩니다.",
+  "linux_instructions": "필요하면 패키지 관리자로 GNOME Keyring과 Seahorse를 설치하세요. 아래는 명령 예시입니다. 로그아웃 후 다시 로그인하여 Seahorse에서 기본 로그인 키 저장소를 만들거나 잠금 해제하세요. KDE에서는 KWallet의 Secret Service를 활성화할 수 있습니다. 기존 키 저장소를 삭제하지 마세요. Sync는 이 명령을 실행하지 않습니다.",
+  "linux_session": "데스크톱 세션 버스를 사용할 수 없습니다. sudo나 SSH 대신 일반 그래픽 데스크톱에서 Sync를 여세요.",
+  "linux_missing": "호환되는 키 저장소 서비스가 없습니다. GNOME Keyring 또는 Secret Service를 설정한 후 다시 확인하세요.",
+  "linux_locked": "키 저장소가 잠겨 있거나 잠금 해제가 취소되었습니다. 시스템으로 잠금 해제를 누르세요. 비밀번호는 시스템 창에서만 입력하세요.",
+  "linux_collection": "기본 키 저장소가 없습니다. Seahorse에서 기본 로그인 키 저장소를 만들거나 Secret Service를 설정하세요.",
+  "linux_store": "보안 저장소에 접근할 수 없습니다. 키 저장소와 권한을 확인하세요. 초기화된 항목은 없습니다.",
+  "linux_key": "기존 설정의 암호화 키가 없습니다. 원래 키 저장소를 복원하거나 지원팀에 문의하세요. 설정이나 키 저장소를 삭제하지 마세요.",
+  "linux_config": "기존 설정을 열 수 없습니다. 파일은 보존되었습니다. 원래 키 저장소를 확인하거나 지원팀에 문의하세요. 키나 설정 파일을 공유하지 마세요."
 }

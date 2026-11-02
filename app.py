@@ -14,11 +14,11 @@ def tray_labels():
 
 class App:
 
-    def __init__(self, root, store, service, background=False):
+    def __init__(self, root, store, service, background=False, state=None):
         self.root = root
         self.store = store
         self.service = service
-        self.state = store.read()
+        self.state = store.read() if state is None else state
         self.messages = queue.Queue()
         self.wake = threading.Event()
         self.paused = threading.Event()
@@ -83,6 +83,9 @@ class App:
             desktop_actions=ttk.Frame(self.panel);desktop_actions.pack(fill='x',pady=(8,0))
             ttk.Button(desktop_actions,text=tr('about'),command=self.about).pack(side='left')
             ttk.Button(desktop_actions,text=tr('close'),command=self.close).pack(side='right')
+            if sys.platform.startswith('linux'):
+                from linux_desktop import show_help
+                ttk.Button(desktop_actions,text=tr('linux_help'),command=lambda:show_help(root)).pack(side='left',padx=6)
         profile = self.state.get('selected')
         if profile and Path(profile['saved']).is_file() and (Path(profile['addon']) / 'DeathAtlas.toc').is_file():
             self.set_candidates([profile], profile)
@@ -434,7 +437,12 @@ def main():
             if instance is None:
                 messagebox.showinfo('Death Atlas Sync',tr('already_open'));root.destroy();return
         path = settings_path()
-        App(root, engine.Settings(path), engine.endpoint(args.service), args.background)
+        store=engine.Settings(path)
+        if sys.platform.startswith('linux'):
+            from linux_desktop import Setup
+            Setup(root,store,lambda state:App(root,store,engine.endpoint(args.service),args.background,state=state))
+        else:
+            App(root, store, engine.endpoint(args.service), args.background)
         root.mainloop()
     except Exception:
         messagebox.showerror('Death Atlas Sync', tr('settings_failed'))

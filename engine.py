@@ -7,7 +7,7 @@ from urllib.request import Request,build_opener
 import deathatlas as data
 DEFAULT_SERVICE='https://garkgames.com/api/deathatlas'
 POLICY='2026-11-01'
-VERSION='0.4.1'
+VERSION='0.4.2'
 class SyncError(ValueError):pass
 
 def consented(state):
@@ -100,6 +100,9 @@ def local_check(profile):
 
 def describe_error(exc):
  from localization import tr
+ if sys.platform.startswith('linux'):
+  from linux_credentials import CredentialError
+  if isinstance(exc,CredentialError):return '[KEYRING_'+exc.code.upper()+'] '+tr('linux_'+exc.code)
  from urllib.error import URLError
  import socket,ssl
  code='UNEXPECTED';key='error_unexpected'

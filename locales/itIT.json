@@ -61,5 +61,19 @@
   "erasure_blocked": "Questa installazione ha richiesto la rimozione dei contributi. Invii interrotti. Usa Informazioni per riprovare o verificare la richiesta.",
   "erasure_no_key": "Nessuna chiave salvata per questa installazione. Contatta l’assistenza senza inviare chiavi o cronologia.",
   "platform_preview": "Anteprima macOS/Linux: non testata con WoW. Senza icona nella barra, tieni questa finestra aperta o ridotta. L’avvio automatico non è incluso.",
-  "foreground_success": "Sync è connesso. Tieni questa finestra aperta o ridotta; chiuderla interrompe la sincronizzazione. Grazie per aver scelto Death Atlas Sync."
+  "foreground_success": "Sync è connesso. Tieni questa finestra aperta o ridotta; chiuderla interrompe la sincronizzazione. Grazie per aver scelto Death Atlas Sync.",
+  "linux_help": "Aiuto Linux",
+  "linux_checking": "Verifica archivio sicuro…",
+  "linux_ready": "Portachiavi pronto. Torna alla configurazione e premi OK per connetterti.",
+  "linux_unlock": "Sblocca tramite il sistema",
+  "linux_retry": "Verifica di nuovo",
+  "linux_explain": "Sync protegge la chiave di connessione con il portachiavi del desktop. Non chiede la password di WoW. Le impostazioni salvate vengono conservate.",
+  "linux_instructions": "Se necessario, installa GNOME Keyring e Password e chiavi (Seahorse) dal gestore pacchetti; un esempio è riportato sotto. Esci e rientra nella sessione, poi crea o sblocca il portachiavi di accesso predefinito in Seahorse. Su KDE puoi abilitare Secret Service in KWallet. Non eliminare portachiavi esistenti. Sync non esegue questi comandi.",
+  "linux_session": "Bus della sessione non disponibile. Apri Sync nel normale desktop grafico, senza sudo o SSH.",
+  "linux_missing": "Nessun servizio portachiavi compatibile. Configura GNOME Keyring o un fornitore Secret Service e riprova.",
+  "linux_locked": "Portachiavi bloccato o sblocco annullato. Premi Sblocca tramite il sistema; solo la finestra del sistema deve chiedere la password.",
+  "linux_collection": "Portachiavi predefinito assente. Creane uno di accesso in Seahorse oppure configura Secret Service.",
+  "linux_store": "Archivio sicuro non accessibile. Controlla portachiavi e permessi, poi riprova. Nulla è stato reimpostato.",
+  "linux_key": "Manca la chiave delle impostazioni esistenti. Ripristina il portachiavi originale o contatta il supporto. Non eliminare le impostazioni o il portachiavi.",
+  "linux_config": "Impossibile aprire le impostazioni esistenti. Il file è conservato. Controlla il portachiavi originale o contatta il supporto senza condividere chiavi o file di impostazioni."
 }

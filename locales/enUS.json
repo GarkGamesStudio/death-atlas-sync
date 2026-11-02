@@ -61,5 +61,19 @@
   "erasure_blocked": "This installation requested removal of its contributions. Uploads are stopped. Use About to retry or check the request.",
   "erasure_no_key": "No saved connection key for this installation. Contact support without sending keys or your history.",
   "platform_preview": "macOS/Linux preview: not tested with WoW. Without a tray icon, keep this window open or minimized. Automatic startup is not included in this build.",
-  "foreground_success": "Sync is connected. Keep this window open or minimized; closing it stops synchronization. Thank you for using Death Atlas Sync."
+  "foreground_success": "Sync is connected. Keep this window open or minimized; closing it stops synchronization. Thank you for using Death Atlas Sync.",
+  "linux_help": "Linux help",
+  "linux_checking": "Checking secure storage…",
+  "linux_ready": "Secure storage is ready. Return to setup and click OK to connect.",
+  "linux_unlock": "Unlock with the system",
+  "linux_retry": "Check again",
+  "linux_explain": "Sync protects its connection key with your desktop keyring. It never asks for your WoW password. Your saved settings are preserved.",
+  "linux_instructions": "If needed, install GNOME Keyring and Passwords and Keys (Seahorse) through your package manager; an example is below. Sign out and back in, then use Seahorse to create or unlock the default Login keyring. On KDE, you can enable Secret Service in KWallet instead. Do not delete an existing keyring. Sync never runs these commands.",
+  "linux_session": "No desktop session bus is available. Open Sync in your normal graphical desktop, not with sudo or over SSH.",
+  "linux_missing": "No compatible keyring service is available. Set up GNOME Keyring or a Secret Service provider, then check again.",
+  "linux_locked": "Your keyring is locked or unlocking was cancelled. Click Unlock with the system; only the system dialog should ask for its password.",
+  "linux_collection": "No default keyring exists. Create a default Login keyring in Passwords and Keys (Seahorse), or configure Secret Service in your desktop.",
+  "linux_store": "Secure storage could not be accessed. Check your desktop keyring and its permissions, then check again. Nothing was reset.",
+  "linux_key": "The encryption key for existing settings is missing. Restore the original keyring or contact support. Do not delete your settings or keyring.",
+  "linux_config": "Existing settings could not be opened. The file was preserved. Check your original keyring or contact support without sharing keys or settings files."
 }

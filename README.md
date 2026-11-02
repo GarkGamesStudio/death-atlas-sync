@@ -1,3 +1,11 @@
+# Linux desktop update — 0.4.2
+
+Linux now checks its secure storage before opening setup and provides a recovery screen instead of closing with a generic error. **Linux help** is available from setup, with translated messages in all eleven languages. **Unlock with the system** opens the system's own prompt, with a 60-second limit; Sync never receives the keyring password. Cancel and retry are supported. Missing services, missing default keyrings and inaccessible existing settings have separate guidance.
+
+Package-manager examples are shown for Debian/Ubuntu/Mint, Fedora, Arch/Manjaro and openSUSE. Users install/configure providers themselves; Sync never runs installation commands, changes desktop settings, deletes keyrings or falls back to plaintext. Existing settings and encryption keys are preserved. Linux keeps its window open or minimized; automatic startup remains unavailable.
+
+The published macOS 0.4.1 and Windows 0.4.0 packages are unchanged. **Linux is still not tested with WoW or official Forever.** Native CI exercises recovery, retry, cancellation, real Tk startup and the real credential store using fixtures only.
+
 # macOS and Linux preview — 0.4.1
 
 Download the native packages, checksums and build reports from [the macOS / Linux preview release](https://github.com/GarkGamesStudio/death-atlas-sync/releases/tag/v0.4.1-posix), or use [the website downloads](https://garkgames.com/death-atlas/about/#downloads).

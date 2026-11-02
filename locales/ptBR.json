@@ -61,5 +61,19 @@
   "erasure_blocked": "Esta instalação solicitou a remoção das contribuições. Envios interrompidos. Use Sobre para tentar novamente ou consultar a solicitação.",
   "erasure_no_key": "Nenhuma chave salva para esta instalação. Contate o suporte sem enviar chaves nem seu histórico.",
   "platform_preview": "Prévia para macOS/Linux: não testada com WoW. Sem ícone na bandeja, mantenha esta janela aberta ou minimizada. A inicialização automática não está incluída.",
-  "foreground_success": "Sync está conectado. Mantenha esta janela aberta ou minimizada; fechá-la interrompe a sincronização. Obrigado por usar Death Atlas Sync."
+  "foreground_success": "Sync está conectado. Mantenha esta janela aberta ou minimizada; fechá-la interrompe a sincronização. Obrigado por usar Death Atlas Sync.",
+  "linux_help": "Ajuda do Linux",
+  "linux_checking": "Verificando armazenamento seguro…",
+  "linux_ready": "Chaveiro pronto. Volte à configuração e clique em OK para conectar.",
+  "linux_unlock": "Desbloquear pelo sistema",
+  "linux_retry": "Verificar novamente",
+  "linux_explain": "O Sync protege a chave de conexão com o chaveiro do desktop. Não pede sua senha do WoW. Suas configurações salvas são preservadas.",
+  "linux_instructions": "Se necessário, instale GNOME Keyring e Senhas e chaves (Seahorse) pelo gerenciador de pacotes; há um exemplo abaixo. Saia e entre na sessão e crie ou desbloqueie o chaveiro de login padrão no Seahorse. No KDE, você pode ativar Secret Service no KWallet. Não exclua um chaveiro existente. O Sync nunca executa estes comandos.",
+  "linux_session": "O barramento da sessão não está disponível. Abra o Sync no desktop gráfico normal, sem sudo ou SSH.",
+  "linux_missing": "Nenhum serviço de chaveiro compatível. Configure GNOME Keyring ou outro provedor Secret Service e verifique novamente.",
+  "linux_locked": "Chaveiro bloqueado ou desbloqueio cancelado. Clique em Desbloquear pelo sistema; somente a janela do sistema deve pedir a senha.",
+  "linux_collection": "Não há chaveiro padrão. Crie um chaveiro de login padrão no Seahorse ou configure Secret Service.",
+  "linux_store": "Não foi possível acessar o armazenamento seguro. Confira o chaveiro e suas permissões. Nada foi redefinido.",
+  "linux_key": "A chave das configurações existentes está ausente. Restaure o chaveiro original ou contate o suporte. Não exclua configurações nem o chaveiro.",
+  "linux_config": "Não foi possível abrir as configurações existentes. O arquivo foi preservado. Confira o chaveiro original ou contate o suporte sem compartilhar chaves ou arquivos de configuração."
 }

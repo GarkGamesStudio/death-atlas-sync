@@ -37,3 +37,11 @@
 - About links to the public GitHub source/license and privacy information.
 - A tray icon failure prevents setup from claiming success or silently hiding the application.
 - Existing DPAPI settings, consent policy, hidden process checks and WoW-closed file safeguards are preserved.
+# 0.4.2 — Linux desktop recovery
+
+- Check secure storage before setup; show specific, translated recovery guidance instead of closing on keyring problems.
+- Add explicit system unlock with cancellation/timeout and retry; background operations do not trigger an indefinite password prompt.
+- Provide read-only package-manager examples based on the distribution. Never install packages, change desktop security, delete a keyring or reset existing settings automatically.
+- Add native Linux GUI tests for retry, inaccessible settings and the transition to real setup; keep the not-tested-with-WoW disclosure.
+- Published Windows 0.4.0 and macOS 0.4.1 binaries are unchanged.
+

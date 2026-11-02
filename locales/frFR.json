@@ -61,5 +61,19 @@
   "erasure_blocked": "Cette installation a demandé le retrait de ses contributions. Envois arrêtés. Réessayez ou consultez la demande dans À propos.",
   "erasure_no_key": "Aucune clé enregistrée pour cette installation. Contactez l’assistance sans envoyer de clé ni votre historique.",
   "platform_preview": "Aperçu macOS/Linux : non testé avec WoW. Sans icône de notification, gardez cette fenêtre ouverte ou réduite. Le démarrage automatique n’est pas inclus.",
-  "foreground_success": "Sync est connecté. Gardez cette fenêtre ouverte ou réduite ; la fermer arrête la synchronisation. Merci d’utiliser Death Atlas Sync."
+  "foreground_success": "Sync est connecté. Gardez cette fenêtre ouverte ou réduite ; la fermer arrête la synchronisation. Merci d’utiliser Death Atlas Sync.",
+  "linux_help": "Aide Linux",
+  "linux_checking": "Vérification du stockage sécurisé…",
+  "linux_ready": "Le trousseau est prêt. Revenez à la configuration et cliquez sur OK pour connecter.",
+  "linux_unlock": "Déverrouiller via le système",
+  "linux_retry": "Vérifier à nouveau",
+  "linux_explain": "Sync protège sa clé de connexion avec le trousseau du bureau. Il ne demande jamais votre mot de passe WoW. Vos réglages sont conservés.",
+  "linux_instructions": "Si nécessaire, installez GNOME Keyring et Mots de passe et clés (Seahorse) avec votre gestionnaire de paquets ; exemple ci-dessous. Reconnectez votre session, puis créez ou déverrouillez le trousseau de connexion par défaut dans Seahorse. Sur KDE, activez Secret Service dans KWallet. Ne supprimez pas de trousseau existant. Sync n’exécute jamais ces commandes.",
+  "linux_session": "Bus de session indisponible. Ouvrez Sync depuis votre bureau graphique habituel, sans sudo ni SSH.",
+  "linux_missing": "Aucun service de trousseau compatible. Configurez GNOME Keyring ou un fournisseur Secret Service, puis réessayez.",
+  "linux_locked": "Trousseau verrouillé ou déverrouillage annulé. Utilisez Déverrouiller via le système ; seul le dialogue système doit demander son mot de passe.",
+  "linux_collection": "Aucun trousseau par défaut. Créez un trousseau de connexion par défaut dans Seahorse ou configurez Secret Service.",
+  "linux_store": "Stockage sécurisé inaccessible. Vérifiez le trousseau et ses autorisations, puis réessayez. Rien n’a été réinitialisé.",
+  "linux_key": "La clé de chiffrement des réglages existants manque. Restaurez le trousseau d’origine ou contactez le support. Ne supprimez rien.",
+  "linux_config": "Impossible d’ouvrir les réglages existants. Le fichier est conservé. Vérifiez le trousseau d’origine ou contactez le support sans partager de clés ni de fichiers de réglages."
 }

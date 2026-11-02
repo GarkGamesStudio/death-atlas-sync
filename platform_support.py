@@ -22,7 +22,8 @@ def native_keyring():
  if sys.platform=='darwin':
   from keyring.backends.macOS import Keyring
  elif sys.platform.startswith('linux'):
-  from keyring.backends.SecretService import Keyring
+  from linux_credentials import backend
+  return backend()
  else:raise RuntimeError('Unsupported credential store')
  return Keyring()
 
@@ -31,7 +32,11 @@ def protect(raw,unprotect=False):
  with _key_lock:
   backend=native_keyring();key=backend.get_password(SERVICE,ACCOUNT)
   if key is None:
-   if unprotect:raise RuntimeError('Native credential key unavailable; existing settings were preserved')
+   if unprotect:
+    if sys.platform.startswith('linux'):
+     from linux_credentials import CredentialError
+     raise CredentialError('key')
+    raise RuntimeError('Native credential key unavailable; existing settings were preserved')
    key=Fernet.generate_key().decode('ascii');backend.set_password(SERVICE,ACCOUNT,key)
    if backend.get_password(SERVICE,ACCOUNT)!=key:raise RuntimeError('Native credential storage verification failed')
   cipher=Fernet(key.encode('ascii'))

@@ -61,5 +61,19 @@
   "erasure_blocked": "Diese Installation hat die Entfernung ihrer Beiträge beantragt. Uploads gestoppt. Unter Info kannst du die Anfrage erneut senden oder prüfen.",
   "erasure_no_key": "Kein gespeicherter Schlüssel für diese Installation. Wende dich an den Support, ohne Schlüssel oder Verlauf zu senden.",
   "platform_preview": "Vorschau für macOS/Linux: nicht mit WoW getestet. Ohne Taskleistensymbol muss dieses Fenster geöffnet oder minimiert bleiben. Automatischer Start ist nicht enthalten.",
-  "foreground_success": "Sync ist verbunden. Dieses Fenster muss geöffnet oder minimiert bleiben; beim Schließen endet die Synchronisierung. Danke für die Nutzung von Death Atlas Sync."
+  "foreground_success": "Sync ist verbunden. Dieses Fenster muss geöffnet oder minimiert bleiben; beim Schließen endet die Synchronisierung. Danke für die Nutzung von Death Atlas Sync.",
+  "linux_help": "Linux-Hilfe",
+  "linux_checking": "Sicheren Speicher prüfen…",
+  "linux_ready": "Schlüsselbund bereit. Zur Einrichtung zurückkehren und zum Verbinden OK wählen.",
+  "linux_unlock": "Über das System entsperren",
+  "linux_retry": "Erneut prüfen",
+  "linux_explain": "Sync schützt seinen Verbindungsschlüssel mit dem Schlüsselbund des Desktops. Dein WoW-Passwort wird nicht abgefragt. Gespeicherte Einstellungen bleiben erhalten.",
+  "linux_instructions": "Bei Bedarf GNOME Keyring und Passwörter und Schlüssel (Seahorse) über die Paketverwaltung installieren; unten steht ein Beispiel. Ab- und wieder anmelden und den Standard-Anmeldeschlüsselbund in Seahorse erstellen oder entsperren. Unter KDE lässt sich Secret Service in KWallet aktivieren. Bestehende Schlüsselbunde nicht löschen. Sync führt diese Befehle nicht aus.",
+  "linux_session": "Kein Desktop-Sitzungsbus verfügbar. Sync im normalen grafischen Desktop öffnen, ohne sudo oder SSH.",
+  "linux_missing": "Kein kompatibler Schlüsseldienst verfügbar. GNOME Keyring oder einen Secret-Service-Anbieter einrichten und erneut prüfen.",
+  "linux_locked": "Schlüsselbund gesperrt oder Entsperren abgebrochen. Über das System entsperren wählen; nur der Systemdialog darf nach dem Passwort fragen.",
+  "linux_collection": "Kein Standard-Schlüsselbund vorhanden. In Seahorse einen Standard-Anmeldeschlüsselbund erstellen oder Secret Service einrichten.",
+  "linux_store": "Kein Zugriff auf den sicheren Speicher. Schlüsselbund und Berechtigungen prüfen. Nichts wurde zurückgesetzt.",
+  "linux_key": "Der Schlüssel für vorhandene Einstellungen fehlt. Ursprünglichen Schlüsselbund wiederherstellen oder Support kontaktieren. Keine Einstellungen oder Schlüsselbunde löschen.",
+  "linux_config": "Vorhandene Einstellungen konnten nicht geöffnet werden. Die Datei bleibt erhalten. Schlüsselbund prüfen oder Support kontaktieren, ohne Schlüssel oder Einstellungsdateien zu teilen."
 }

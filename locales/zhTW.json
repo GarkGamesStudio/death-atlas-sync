@@ -61,5 +61,19 @@
   "erasure_blocked": "此安裝已請求刪除資料，上傳已停止。請在「關於」中重試或查看請求。",
   "erasure_no_key": "找不到此安裝儲存的連線金鑰。請聯絡支援，不要傳送金鑰或歷史記錄。",
   "platform_preview": "macOS/Linux 預覽版：尚未與 WoW 一起測試。若沒有系統匣圖示，請保持視窗開啟或最小化。本版本不含自動啟動。",
-  "foreground_success": "Sync 已連線。請保持視窗開啟或最小化；關閉視窗會停止同步。感謝使用 Death Atlas Sync。"
+  "foreground_success": "Sync 已連線。請保持視窗開啟或最小化；關閉視窗會停止同步。感謝使用 Death Atlas Sync。",
+  "linux_help": "Linux 說明",
+  "linux_checking": "正在檢查安全儲存…",
+  "linux_ready": "金鑰環已就緒。返回設定並按 OK 連線。",
+  "linux_unlock": "透過系統解鎖",
+  "linux_retry": "重新檢查",
+  "linux_explain": "Sync 使用桌面金鑰環保護連線金鑰，不會索取 WoW 密碼。已儲存的設定會保留。",
+  "linux_instructions": "如有需要，請透過套件管理員安裝 GNOME Keyring 和 Seahorse；下方提供指令範例。登出後重新登入，在 Seahorse 中建立或解鎖預設登入金鑰環。KDE 使用者可在 KWallet 中啟用 Secret Service。不要刪除現有金鑰環。Sync 不會執行這些指令。",
+  "linux_session": "無法使用桌面工作階段匯流排。請在一般圖形桌面開啟 Sync，不要使用 sudo 或 SSH。",
+  "linux_missing": "沒有可用的相容金鑰環服務。請設定 GNOME Keyring 或 Secret Service 後重新檢查。",
+  "linux_locked": "金鑰環已鎖定或解鎖已取消。請按透過系統解鎖；只在系統對話框輸入密碼。",
+  "linux_collection": "預設金鑰環不存在。請在 Seahorse 建立預設登入金鑰環，或設定 Secret Service。",
+  "linux_store": "無法存取安全儲存。請檢查桌面金鑰環及權限後重試。未重設任何內容。",
+  "linux_key": "現有設定的加密金鑰遺失。請還原原來的金鑰環或聯絡支援。不要刪除設定或金鑰環。",
+  "linux_config": "無法開啟現有設定。檔案已保留。請檢查原來的金鑰環或聯絡支援，不要分享金鑰或設定檔案。"
 }

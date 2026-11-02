@@ -4,6 +4,8 @@ import hashlib,json,os,platform,subprocess,sys,tarfile,zipfile,shutil
 import importlib.metadata as metadata
 from PIL import Image
 root=Path(__file__).resolve().parents[1];os.chdir(root)
+sys.path.insert(0,str(root))
+from engine import VERSION
 assert sys.platform in ('darwin','linux')
 licenses=root/'THIRD_PARTY/POSIX-LICENSES';licenses.mkdir(parents=True,exist_ok=True)
 for dist in metadata.distributions():
@@ -20,7 +22,7 @@ else:args+=['--onefile']
 subprocess.run(args+['app.py'],check=True)
 out=root/'release';out.mkdir(exist_ok=True)
 machine=platform.machine();suffix='macOS-'+('arm64' if machine=='arm64' else 'x64') if sys.platform=='darwin' else 'Linux-x64'
-name='DeathAtlasSync-0.4.1-'+suffix
+name='DeathAtlasSync-'+VERSION+'-'+suffix
 readme='''Death Atlas Sync 0.4.1 — macOS / Linux preview
 
 NOT TESTED WITH WOW. Built on native CI runners with automated checks; this does not establish compatibility with the official Forever client.
@@ -35,6 +37,15 @@ Español: NO PROBADO CON WOW. Esta compilación pasó comprobaciones automática
 
 Privacy: https://garkgames.com/death-atlas/privacy/
 Source, licence and issues: https://github.com/GarkGamesStudio/death-atlas-sync
+'''
+readme=readme.replace('0.4.1',VERSION)
+if sys.platform=='linux':
+ readme+='''
+Linux 0.4.2: secure-storage recovery
+Startup checks your desktop keyring before opening setup. If it is locked, choose Unlock with the system. Enter its password only in the system dialog. Cancelling or a 60-second timeout leaves settings intact and lets you retry.
+Linux help is also available from the setup window. It distinguishes a missing desktop session, missing Secret Service, missing default keyring and inaccessible existing settings. It offers package-manager examples for Debian/Ubuntu/Mint, Fedora, Arch/Manjaro and openSUSE. Sync never installs packages, runs these commands, changes your desktop settings, deletes your keyring or saves unencrypted connection keys.
+After installing a keyring provider, sign out/in. In Passwords and Keys (Seahorse), create or unlock the default Login keyring; KDE users can configure Secret Service in KWallet. If an existing encryption key is missing, restore the original keyring or contact support; do not reset or delete your saved settings.
+Español: Ayuda de Linux permite comprobar de nuevo y solicitar el desbloqueo al sistema. Las instrucciones se adaptan a tu distribución. No se instalan paquetes ni se ejecutan comandos automáticamente. Si falta la clave original, conserva la configuración y el llavero y contacta con soporte. Se mantienen los once idiomas y el aviso de que no está probado con WoW.
 '''
 (out/'README.txt').write_text(readme,encoding='utf-8')
 # Self-test exercises actual Tk and the native credential store; no game profile or network is used.
