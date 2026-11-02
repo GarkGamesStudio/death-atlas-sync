@@ -18,7 +18,7 @@
   "tray_failed": "無法建立 system 通知區域圖示。請關閉並重新開啟 Sync。",
   "configure": "設定",
   "about_title": "關於 Death Atlas Sync",
-  "about_text": "作者：Garkoth\n\n分享你的死亡紀錄並下載 Death Atlas 的 Global 地圖。在 WoW 關閉後執行，為下次遊戲準備插件資料。Global 資料每天於 06:00 UTC 發布。\n\n不會索取 WoW 密碼或修改你的歷史紀錄。請保持 Sync 執行；透過設定變更資料夾，透過關閉結束程式。\n\n狀態：{status}",
+  "about_text": "作者：Garkoth\n\n在 WoW 關閉時分享獲准的死亡紀錄並下載 Death Atlas 全域地圖。發布時間依 garkgames.com 的目前安排。\n\n所有功能均免費。不索取 WoW 密碼，也不修改歷史紀錄。請保持 Sync 執行；使用設定更改資料夾，關閉以停止程式。\n\n狀態：{status}",
   "github": "GitHub 程式碼與授權",
   "licenses": "內含授權",
   "license_title": "授權",
@@ -80,5 +80,6 @@
   "pending_account": "等待首次登入",
   "pending_save": "已就緒，等待插件首次儲存。請在 /da 中啟用分享並離開 WoW，無需死亡紀錄。",
   "pending_success": "設定已儲存。Sync 將等待首次啟用 Death Atlas 並允許分享的遊戲階段。之後請離開 WoW。無需死亡紀錄。感謝使用 Death Atlas Sync。",
-  "update_available": "Sync {version} 已推出。請開啟關於頁面下載。"
+  "update_available": "Sync {version} 已推出。請開啟關於頁面下載。",
+  "support": "透過 Ko-fi 支持（自願）"
 }

@@ -9,6 +9,7 @@ from branding import apply_window_icon, tray_image
 from localization import tr, font_family
 SOURCE_URL = 'https://github.com/GarkGamesStudio/death-atlas-sync'
 PRIVACY_URL = 'https://garkgames.com/death-atlas/privacy/'
+SUPPORT_URL = 'https://ko-fi.com/garkgames'
 
 def tray_labels():
     return (tr('configure'), tr('about'), tr('close'))
@@ -258,6 +259,7 @@ class App:
         update=self.state.get('updates',{}).get('available')
         if update:
             ttk.Button(frame,text=tr('update_available',version=update['version']),command=lambda:webbrowser.open(updates.DOWNLOADS)).pack(fill='x',pady=(0,8))
+        ttk.Button(frame, text=tr('support'), command=lambda: webbrowser.open(SUPPORT_URL)).pack(fill='x', pady=(0, 5))
         ttk.Button(frame, text=tr('github'), command=lambda: webbrowser.open(SOURCE_URL)).pack(fill='x')
         ttk.Button(frame, text=tr('privacy'), command=lambda: webbrowser.open(PRIVACY_URL)).pack(fill='x', pady=5)
         ttk.Button(frame, text=tr('licenses'), command=self.licenses).pack(fill='x')

@@ -1,3 +1,9 @@
+# 0.4.5 — Optional support link
+
+- Add an optional Ko-fi button to About in all eleven interface languages. Only an explicit click opens the browser. No payment, account or donation is required for any feature, and no payment widget is embedded.
+- Support URL: https://ko-fi.com/garkgames. Keep donation requests outside the in-game addon in accordance with Blizzard's addon policy.
+- Preserve existing settings, consent, discovery, map downloads, update notifications and platform requirements.
+
 # 0.4.4 native builds — macOS and Linux
 
 - Bring setup without history, addon-only discovery and once-per-24-hour public update checks to Mac Intel, Apple Silicon and Linux x64. Newer versions link to the website from About; no automatic installation or download.

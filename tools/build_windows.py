@@ -23,6 +23,8 @@ Setup only requires the Death Atlas addon to be installed, even before your firs
 
 Español: Extrae TODO el ZIP y abre DeathAtlasSync.exe. Conserva la carpeta _internal al lado del EXE; no muevas solo el ejecutable. No necesitas instalar Python. Cierra el Sync anterior y conserva tu configuración. Si usas Inicio con Windows, pulsa OK en la nueva versión para actualizar la ruta. El EXE no tiene firma digital. La detección de la versión anterior está en revisión; no desactives el antivirus ni añadas exclusiones. Falta validar el cliente oficial de Forever.
 
+Optional support: https://ko-fi.com/garkgames (also in About). All features remain free. Only an explicit click opens the support page; no payment widget or donation verification is included.
+
 Privacy: https://garkgames.com/death-atlas/privacy/
 Source / licence: https://github.com/GarkGamesStudio/death-atlas-sync
 Issues: https://github.com/GarkGamesStudio/death-atlas-sync/issues/new/choose

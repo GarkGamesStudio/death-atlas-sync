@@ -18,7 +18,7 @@
   "tray_failed": "Das system-Infobereichssymbol konnte nicht erstellt werden. Starte Sync neu.",
   "configure": "Konfigurieren",
   "about_title": "Über Death Atlas Sync",
-  "about_text": "Von Garkoth\n\nTeilt deine Todesfälle und lädt die Global-Karten von Death Atlas. Arbeitet bei geschlossenem WoW und bereitet das Addon auf deine nächste Sitzung vor. Global-Daten erscheinen täglich um 06:00 UTC.\n\nFragt nie nach deinem WoW-Passwort und verändert deinen Verlauf nicht. Lass Sync geöffnet. Konfigurieren ändert den Ordner; Schließen beendet das Programm.\n\nStatus: {status}",
+  "about_text": "Von Garkoth\n\nTeilt deinen freigegebenen Todesverlauf und lädt globale Death-Atlas-Karten bei geschlossenem WoW herunter. Veröffentlichungen folgen dem aktuellen Zeitplan auf garkgames.com.\n\nAlle Funktionen sind kostenlos. Fragt nie nach deinem WoW-Passwort und verändert deinen Verlauf nicht. Lasse Sync geöffnet. Mit Konfigurieren änderst du den Ordner, mit Schließen beendest du Sync.\n\nStatus: {status}",
   "github": "Quellcode und Lizenz auf GitHub",
   "licenses": "Enthaltene Lizenzen",
   "license_title": "Lizenzen",
@@ -80,5 +80,6 @@
   "pending_account": "Warten auf erste Anmeldung",
   "pending_save": "Bereit. Warte auf den ersten Addon-Spielstand. Aktiviere Teilen unter /da und schließe WoW. Todesfälle sind nicht erforderlich.",
   "pending_success": "Einrichtung gespeichert. Sync wartet auf deine erste Sitzung mit aktiviertem Death Atlas und erlaubtem Teilen. Schließe WoW danach. Todesfälle sind nicht erforderlich. Danke für die Nutzung von Death Atlas Sync.",
-  "update_available": "Sync {version} ist verfügbar. Öffne Über, um es herunterzuladen."
+  "update_available": "Sync {version} ist verfügbar. Öffne Über, um es herunterzuladen.",
+  "support": "Auf Ko-fi unterstützen (freiwillig)"
 }

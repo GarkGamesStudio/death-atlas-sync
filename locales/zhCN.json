@@ -18,7 +18,7 @@
   "tray_failed": "无法创建 system 托盘图标。请关闭并重新打开 Sync。",
   "configure": "配置",
   "about_title": "关于 Death Atlas Sync",
-  "about_text": "作者：Garkoth\n\n共享你的死亡记录并下载 Death Atlas 的 Global 地图。在 WoW 关闭后运行，为下次游戏准备插件数据。Global 数据每天于 06:00 UTC 发布。\n\n不会索取 WoW 密码或修改你的历史记录。请保持 Sync 运行；通过配置更改文件夹，通过关闭退出程序。\n\n状态：{status}",
+  "about_text": "作者：Garkoth\n\n在 WoW 关闭时分享获准的死亡记录并下载 Death Atlas 全局地图。发布时间以 garkgames.com 的当前安排为准。\n\n所有功能均免费。不索要 WoW 密码，也不修改历史记录。请保持 Sync 运行；使用配置更改文件夹，关闭以停止程序。\n\n状态：{status}",
   "github": "GitHub 代码与许可证",
   "licenses": "内置许可证",
   "license_title": "许可证",
@@ -80,5 +80,6 @@
   "pending_account": "等待首次登录",
   "pending_save": "已就绪，等待插件首次保存。请在 /da 中启用共享并退出 WoW，无需死亡记录。",
   "pending_success": "设置已保存。Sync 将等待首次启用 Death Atlas 并允许共享的游戏会话。之后请退出 WoW。无需死亡记录。感谢使用 Death Atlas Sync。",
-  "update_available": "Sync {version} 已推出。请打开关于页面下载。"
+  "update_available": "Sync {version} 已推出。请打开关于页面下载。",
+  "support": "通过 Ko-fi 支持（可选）"
 }

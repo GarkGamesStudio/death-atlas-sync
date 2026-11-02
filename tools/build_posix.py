@@ -39,6 +39,8 @@ Sync only works with WoW closed. If detection misses your Wine/Lutris/Steam inst
 Español: NO PROBADO CON WOW. Esta compilación pasó comprobaciones automáticas, pero no valida el cliente oficial de Forever. Elige tu carpeta de WoW y revisa el permiso. Cierra WoW antes de sincronizar. En Linux deja la ventana abierta o minimizada; necesita X11/XWayland y un llavero Secret Service desbloqueado. No se incluye inicio automático en macOS/Linux. La app de Mac no tiene firma Developer ID ni notarización.
 Puedes configurar Sync con el addon instalado antes de entrar al juego, sin historial ni muertes. Esperará el primer guardado del addon con Compartir activo. Consulta versiones una vez cada 24 horas y ofrece la descarga en Acerca de, sin instalar ni descargar automáticamente. Al actualizar, cierra la versión anterior y conserva tu configuración y el llavero del sistema.
 
+Optional support: https://ko-fi.com/garkgames (also in About). All features remain free. Only an explicit click opens the support page; no payment widget or donation verification is included.
+
 Privacy: https://garkgames.com/death-atlas/privacy/
 Source, licence and issues: https://github.com/GarkGamesStudio/death-atlas-sync
 '''

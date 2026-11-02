@@ -1,3 +1,9 @@
+# Optional support — 0.4.5
+
+About includes an optional **Support on Ko-fi** button: https://ko-fi.com/garkgames. It opens the system browser only when clicked. All features remain free; there is no embedded payment widget, popup solicitation or donation check. The in-game addon does not solicit donations.
+
+Website downloads: https://garkgames.com/death-atlas/about/#downloads. Preserve existing protected settings and system credentials when upgrading. Windows needs the entire extracted folder; Mac/Linux remain untested with WoW and retain their signing/desktop/keyring requirements.
+
 # macOS and Linux setup and update notifications — 0.4.4
 
 The native 0.4.4 builds bring addon-only setup, bounded discovery and daily update notices to macOS Intel, macOS Apple Silicon and Linux x64. Configure before your first WoW login, without deaths or history; Sync waits for the first addon save. Open About for a newer-version download link. No automatic download or installation is performed. Preserve existing encrypted settings and the system keyring when upgrading. Windows 0.4.4 stays available separately.

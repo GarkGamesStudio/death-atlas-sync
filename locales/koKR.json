@@ -18,7 +18,7 @@
   "tray_failed": "system 알림 영역 아이콘을 만들지 못했습니다. Sync를 다시 실행하세요.",
   "configure": "설정",
   "about_title": "Death Atlas Sync 정보",
-  "about_text": "제작: Garkoth\n\n사망 기록을 공유하고 Death Atlas의 Global 지도를 다운로드합니다. WoW가 종료된 동안 작동하며 다음 접속을 위해 애드온을 준비합니다. Global 데이터는 매일 06:00 UTC에 게시됩니다.\n\nWoW 비밀번호를 요청하거나 기록을 수정하지 않습니다. Sync를 실행해 두세요. 설정에서 폴더를 변경하고 종료로 프로그램을 끝낼 수 있습니다.\n\n상태: {status}",
+  "about_text": "제작: Garkoth\n\n허용한 사망 기록을 공유하고 WoW가 종료된 동안 Death Atlas 전체 지도를 다운로드합니다. 게시 일정은 garkgames.com의 현재 안내를 따릅니다.\n\n모든 기능은 무료입니다. WoW 비밀번호를 요구하거나 기록을 변경하지 않습니다. Sync를 열어 두세요. 설정에서 폴더를 바꾸고 닫기로 종료할 수 있습니다.\n\n상태: {status}",
   "github": "GitHub 코드 및 라이선스",
   "licenses": "포함된 라이선스",
   "license_title": "라이선스",
@@ -80,5 +80,6 @@
   "pending_account": "첫 로그인 대기 중",
   "pending_save": "준비되었습니다. 애드온의 첫 저장을 기다립니다. /da에서 공유를 켜고 WoW를 종료하세요. 사망 기록은 필요하지 않습니다.",
   "pending_success": "설정이 저장되었습니다. Sync는 Death Atlas와 공유가 활성화된 첫 세션을 기다립니다. 이후 WoW를 종료하세요. 사망할 필요는 없습니다. Death Atlas Sync를 이용해 주셔서 감사합니다.",
-  "update_available": "Sync {version} 업데이트가 있습니다. 정보를 열어 다운로드하세요."
+  "update_available": "Sync {version} 업데이트가 있습니다. 정보를 열어 다운로드하세요.",
+  "support": "Ko-fi에서 후원하기 (선택 사항)"
 }

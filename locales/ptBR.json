@@ -18,7 +18,7 @@
   "tray_failed": "Não foi possível criar o ícone na bandeja do system. Feche e abra o Sync novamente.",
   "configure": "Configurar",
   "about_title": "Sobre o Death Atlas Sync",
-  "about_text": "Por Garkoth\n\nCompartilha suas mortes e baixa os mapas Global do Death Atlas. Funciona com o WoW fechado e prepara o addon para a próxima sessão. Os dados Global são publicados diariamente às 06:00 UTC.\n\nNão pede a senha do WoW nem altera seu histórico. Mantenha o Sync aberto; Configurar muda a pasta e Fechar encerra o programa.\n\nEstado: {status}",
+  "about_text": "Por Garkoth\n\nCompartilha o histórico autorizado e baixa os mapas globais de Death Atlas com o WoW fechado. As publicações seguem o horário atual de garkgames.com.\n\nTodos os recursos são gratuitos. Não pede sua senha do WoW nem altera seu histórico. Mantenha o Sync aberto; Configurar muda a pasta e Fechar encerra o Sync.\n\nEstado: {status}",
   "github": "Código e licença no GitHub",
   "licenses": "Licenças incluídas",
   "license_title": "Licenças",
@@ -80,5 +80,6 @@
   "pending_account": "Aguardando primeiro acesso",
   "pending_save": "Pronto. Aguardando o primeiro salvamento. Ative Compartilhar em /da e feche o WoW; nenhuma morte é necessária.",
   "pending_success": "Configuração salva. O Sync aguardará sua primeira sessão com Death Atlas ativo e compartilhamento permitido. Depois feche o WoW. Não é necessário morrer. Obrigado por usar o Death Atlas Sync.",
-  "update_available": "Sync {version} disponível. Abra Sobre para baixar."
+  "update_available": "Sync {version} disponível. Abra Sobre para baixar.",
+  "support": "Apoiar no Ko-fi (opcional)"
 }

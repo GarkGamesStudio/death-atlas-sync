@@ -18,7 +18,7 @@
   "tray_failed": "Could not create the system tray icon. Close Sync and try again.",
   "configure": "Configure",
   "about_title": "About Death Atlas Sync",
-  "about_text": "By Garkoth\n\nShares your deaths and downloads Death Atlas Global maps. Works with WoW closed and prepares the addon for your next session. Global data is published daily at 06:00 UTC.\n\nNever asks for your WoW password or edits your history. Keep Sync open; use Configure to change the folder or Close to stop it.\n\nStatus: {status}",
+  "about_text": "By Garkoth\n\nShares your authorized death history and downloads Death Atlas Global maps with WoW closed. Publication follows the current schedule on garkgames.com.\n\nAll features are free. Never asks for your WoW password or edits your history. Keep Sync open; use Configure to change the folder or Close to stop it.\n\nStatus: {status}",
   "github": "Code and license on GitHub",
   "licenses": "Included licenses",
   "license_title": "Licenses",
@@ -80,5 +80,6 @@
   "pending_account": "Waiting for first login",
   "pending_save": "Ready. Waiting for the first addon save. Enable Sharing in /da and close WoW; no deaths are required.",
   "pending_success": "Setup saved. Sync will wait for your first WoW session with Death Atlas enabled and Sharing allowed. Close WoW afterwards. No deaths are required. Thank you for using Death Atlas Sync.",
-  "update_available": "Sync {version} is available. Open About to download it."
+  "update_available": "Sync {version} is available. Open About to download it.",
+  "support": "Support on Ko-fi (optional)"
 }

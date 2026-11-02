@@ -82,6 +82,12 @@ class CompactSetup(unittest.TestCase):
   with patch.object(app.webbrowser,'open') as opened:
    next(w for w in buttons if 'GitHub' in w.cget('text')).invoke();opened.assert_called_once_with(app.SOURCE_URL)
   self.ui.licenses();self.assertEqual(len([w for w in self.root.winfo_children() if isinstance(w,app.tk.Toplevel)]),2)
+ def test_support_only_opens_owner_link_after_explicit_click(self):
+  with patch.object(app.webbrowser,'open') as opened,patch.object(app.engine,'sync_profile') as sync:
+   self.ui.about();opened.assert_not_called();sync.assert_not_called()
+   dialog=next(w for w in self.root.winfo_children() if isinstance(w,app.tk.Toplevel))
+   button=next(w for w in dialog.winfo_children()[0].winfo_children() if isinstance(w,app.ttk.Button) and w.cget('text')==app.tr('support'))
+   button.invoke();opened.assert_called_once_with('https://ko-fi.com/garkgames');sync.assert_not_called()
  def test_window_size_and_tray_menu(self):
   self.ui.set_candidates(PROFILES);self.root.deiconify();self.root.update()
   self.assertGreaterEqual(int(self.root.geometry().split('x')[1].split('+')[0]),self.ui.panel.winfo_reqheight())
