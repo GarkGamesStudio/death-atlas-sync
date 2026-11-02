@@ -22,7 +22,7 @@
   "github": "GitHub 代码与许可证",
   "licenses": "内置许可证",
   "license_title": "许可证",
-  "success": "Sync 正在后台运行。\n\n你可以在 macOS/Linux 托盘中找到它。\n感谢使用 Death Atlas Sync。",
+  "success": "Sync 正在后台运行。\n\n使用托盘图标进行设置或关闭程序。\n感谢使用 Death Atlas Sync。",
   "connected": "已连接。上次同步：{time}",
   "waiting": "正在等待你关闭 WoW。",
   "updated": "已于 {time} 更新。",

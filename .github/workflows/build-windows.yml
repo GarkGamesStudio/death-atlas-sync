@@ -1,0 +1,34 @@
+name: Build Windows portable folder
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Pinned dependencies
+        run: python -m pip install -r requirements-build.txt
+      - name: Windows consent, settings and interface tests
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tests = @('languages.py','discovery_tests.py','compact_setup.py','localized_windows.py','native_tray.py','startup.py','process_visibility.py','setup_diagnostics.py','erasure.py','policy_tests.py')
+          foreach ($test in $tests) {
+            python "tests/$test"
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+      - name: Build and test real portable program
+        run: python tools/build_windows.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DeathAtlasSync-Windows-x64-Portable
+          path: release/
+          if-no-files-found: error
+          retention-days: 14

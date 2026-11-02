@@ -22,7 +22,7 @@
   "github": "Code and license on GitHub",
   "licenses": "Included licenses",
   "license_title": "Licenses",
-  "success": "Sync is running in the background.\n\nFind it in the macOS/Linux system tray.\nThank you for using Death Atlas Sync.",
+  "success": "Sync is running in the background.\n\nUse its tray icon to configure or close it.\nThank you for using Death Atlas Sync.",
   "connected": "Connected. Last sync: {time}",
   "waiting": "Waiting for you to close WoW.",
   "updated": "Updated at {time}.",

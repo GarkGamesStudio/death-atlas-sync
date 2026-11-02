@@ -22,7 +22,7 @@
   "github": "GitHub 程式碼與授權",
   "licenses": "內含授權",
   "license_title": "授權",
-  "success": "Sync 正在背景執行。\n\n你可以在 macOS/Linux 通知區域中找到它。\n感謝使用 Death Atlas Sync。",
+  "success": "Sync 正在背景執行。\n\n使用系統匣圖示進行設定或關閉程式。\n感謝使用 Death Atlas Sync。",
   "connected": "已連線。上次同步：{time}",
   "waiting": "正在等待你關閉 WoW。",
   "updated": "已於 {time} 更新。",

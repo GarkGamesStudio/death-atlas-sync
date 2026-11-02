@@ -22,7 +22,7 @@
   "github": "Codice e licenza su GitHub",
   "licenses": "Licenze incluse",
   "license_title": "Licenze",
-  "success": "Sync è in esecuzione in background.\n\nLo trovi nell’area di notifica di macOS/Linux.\nGrazie per aver scelto Death Atlas Sync.",
+  "success": "Sync è in esecuzione in background.\n\nUsa la sua icona per configurarlo o chiuderlo.\nGrazie per aver scelto Death Atlas Sync.",
   "connected": "Connesso. Ultima sincronizzazione: {time}",
   "waiting": "In attesa della chiusura di WoW.",
   "updated": "Aggiornato alle {time}.",
