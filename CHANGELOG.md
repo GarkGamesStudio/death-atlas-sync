@@ -1,3 +1,11 @@
+# 0.4.3 — Windows portable folder
+
+- Ship the standard EXE plus visible runtime folder, without one-file self-extraction or UPX compression. Keep the whole folder when installing or moving it.
+- Preserve the existing Windows DPAPI settings and consent contract; update the optional startup path by clicking OK in setup.
+- Add native Windows CI checks and publish exact-package checksums, build results and the limited Defender scan report.
+- Correct the background-success text across eleven locales. Existing macOS/Linux packages are unchanged.
+- Keep the original 0.4.0 detection under Microsoft review; do not claim it is a confirmed false positive or suggest antivirus exclusions.
+
 # 0.4.2 — Linux desktop recovery
 
 - Check secure storage before setup; show specific, translated recovery guidance instead of closing on keyring problems.

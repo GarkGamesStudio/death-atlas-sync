@@ -1,3 +1,11 @@
+# Windows portable folder — 0.4.3
+
+Use the [Windows 0.4.3 release](https://github.com/GarkGamesStudio/death-atlas-sync/releases/tag/v0.4.3) or [website downloads](https://garkgames.com/death-atlas/about/#downloads). **Extract the entire ZIP and keep `_internal` beside `DeathAtlasSync.exe`.** No Python installation is needed. Close the older Sync before upgrading and keep its existing protected settings. If you use Start with Windows, click OK in the new setup to update its path.
+
+The standard folder distribution replaces the earlier self-extracting one-file EXE. Native Windows CI tests the real tray, eleven interface languages, consent, settings, optional startup and packaged Tk/DPAPI. The exact package was additionally scanned with Defender signatures 1.463.84.0 on 2026-11-02, with real-time protection enabled: no detections in that scan. Local packaged startup also passed. Reports and checksums are attached to the release. These checks do not guarantee other antivirus products or future definitions. The app is unsigned; official Forever validation remains pending.
+
+Microsoft detected the old 0.4.0 EXE as Program:Win32/Contebrew.A!ml. Review is pending; no confirmed false-positive claim is made. Do not disable protection, add exclusions, or restore a blocked file to run Sync. macOS 0.4.1 and Linux 0.4.2 packages are unchanged.
+
 # Linux desktop update — 0.4.2
 
 Linux now checks its secure storage before opening setup and provides a recovery screen instead of closing with a generic error. **Linux help** is available from setup, with translated messages in all eleven languages. **Unlock with the system** opens the system's own prompt, with a 60-second limit; Sync never receives the keyring password. Cancel and retry are supported. Missing services, missing default keyrings and inaccessible existing settings have separate guidance.
@@ -12,7 +20,7 @@ Download the native packages, checksums and build reports from [the macOS / Linu
 
 New native builds for macOS Intel, macOS Apple Silicon and Linux x64. **Not tested with WoW or the official Forever service.** CI builds and launches the real packaged program and checks Tk and the native credential store; this is not an in-game or desktop usability test.
 
-Windows users should continue using the published 0.4.0 Windows release; its EXE and settings remain unchanged.
+Windows users should use the 0.4.3 standard folder described above. The original 0.4.0 self-extracting EXE is under Microsoft review.
 
 macOS: encrypted settings use macOS Keychain. The application is not Developer ID signed or notarized. Linux: encrypted settings require an unlocked Secret Service keyring, glibc >=2.35 and X11/XWayland. Linux keeps a visible, minimizable window; closing it stops sync. No automatic startup is included on macOS/Linux. macOS uses its menu-bar icon when available and otherwise keeps the window visible. Manual folder selection supports custom Wine/Lutris/Steam layouts if bounded detection misses them.
 
