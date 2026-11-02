@@ -413,6 +413,9 @@ def main():
         root.destroy()
         base = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
         import localization
+        if os.name != 'nt':
+            from platform_support import tls_context
+            assert tls_context().cert_store_stats()['x509_ca'] > 0
         Path(args.self_test_output).write_text(json.dumps({'version': engine.VERSION, 'tk': True, 'dpapi': engine.protect(engine.protect(b'fixture'), True) == b'fixture', 'embeddedLicense': (base / 'LICENSE.txt').is_file(), 'embeddedThirdParty': (base / 'THIRD_PARTY').is_dir(), 'language': localization.LANGUAGE, 'localeCount': len(localization.LOCALES), 'catalogKeys': len(localization.CATALOG), 'brandAssets': all((base/'assets'/name).is_file() for name in ('DeathAtlas.ico','Icon32.png','Icon64.png')), 'windowIconLoaded': True}))
         return
     mutex = None

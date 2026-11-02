@@ -6,6 +6,9 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import platform_support as p
 
 class Platforms(unittest.TestCase):
+ def test_bundled_tls_verification(self):
+  import ssl
+  context=p.tls_context();self.assertTrue(context.check_hostname);self.assertEqual(context.verify_mode,ssl.CERT_REQUIRED);self.assertGreater(context.cert_store_stats()['x509_ca'],0)
  def test_encryption_roundtrip_and_no_plaintext(self):
   values={};backend=Mock();backend.get_password.side_effect=lambda s,k:values.get((s,k));backend.set_password.side_effect=lambda s,k,v:values.__setitem__((s,k),v)
   with patch.object(p,'native_keyring',return_value=backend):

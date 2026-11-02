@@ -6,6 +6,12 @@ _key_lock=threading.Lock()
 SERVICE='com.garkgames.deathatlassync'
 ACCOUNT='settings-encryption-v1'
 
+def tls_context():
+ # A standalone Mac does not have the build runner's Python/OpenSSL CA path.
+ # Bundle Mozilla roots; keep certificate and hostname verification mandatory.
+ import ssl,certifi
+ return ssl.create_default_context(cafile=certifi.where())
+
 def settings_path():
  if sys.platform=='win32':return Path(os.environ.get('LOCALAPPDATA',str(Path.home())))/'GarkGames/DeathAtlasSync/settings.dpapi'
  if sys.platform=='darwin':return Path.home()/'Library/Application Support/GarkGames/DeathAtlasSync/settings.enc'

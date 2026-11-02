@@ -20,7 +20,12 @@ from contextlib import closing
 from collections import Counter
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlencode, urlsplit
-from urllib.request import Request, build_opener, HTTPRedirectHandler
+from urllib.request import Request, build_opener, HTTPRedirectHandler, HTTPSHandler
+
+def https_handlers():
+    if os.name == 'nt':return ()
+    from platform_support import tls_context
+    return (HTTPSHandler(context=tls_context()),)
 
 LIMIT=5000
 MAX_BYTES=8*1024*1024
@@ -279,7 +284,7 @@ def request(url,data=None):
         headers['OAI-Sites-Authorization']='Bearer '+sites_token
     if data is not None: headers['Content-Type']='application/json'
     req=Request(url,data=json.dumps(data).encode() if data is not None else None,headers=headers)
-    with build_opener(NoRedirect).open(req,timeout=30) as response:
+    with build_opener(NoRedirect,*https_handlers()).open(req,timeout=30) as response:
         raw=response.read(MAX_BYTES+1)
     if len(raw)>MAX_BYTES: raise ValueError('Response too large')
     return json.loads(raw)

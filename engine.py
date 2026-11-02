@@ -29,7 +29,7 @@ def api(base,route,payload=None,token=None):
  if token:headers['X-DeathAtlas-Key']=token
  if payload is not None:headers['Content-Type']='application/json'
  req=Request(base+route,data=json.dumps(payload).encode() if payload is not None else None,headers=headers)
- with build_opener(data.NoRedirect).open(req,timeout=30) as response:raw=response.read(data.MAX_BYTES+1)
+ with build_opener(data.NoRedirect,*data.https_handlers()).open(req,timeout=30) as response:raw=response.read(data.MAX_BYTES+1)
  if len(raw)>data.MAX_BYTES:raise SyncError('Respuesta demasiado grande')
  return json.loads(raw)
 
