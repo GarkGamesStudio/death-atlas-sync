@@ -28,7 +28,7 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y xvfb dbus-x11 gnome-keyring libsecret-1-0 python3-tk
       - name: Install pinned build dependencies
-        run: python -m pip install -r requirements-posix.txt
+        run: python -m pip install --only-binary=cryptography -r requirements-posix.txt
       - name: Portable security and contract tests
         run: |
           python tests/platform_tests.py
