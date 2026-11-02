@@ -1,22 +1,22 @@
 name: Report a bug / Reportar un error
-description: Death Atlas addon, Windows Sync, or web dashboard
+description: Death Atlas addon, Sync for Windows/macOS/Linux, or web dashboard
 title: "[Bug] "
 body:
   - type: markdown
     attributes:
-      value: "Beta: official WoW Forever validation is pending. Do not upload SavedVariables, settings.dpapi, tokens, full histories, or private account paths. Crop screenshots before attaching them."
+      value: "Official WoW Forever validation is pending. macOS/Linux builds have not been tested with WoW. Do not upload SavedVariables, settings.dpapi, settings.enc, tokens, full histories, or private account paths. Crop screenshots before attaching them."
   - type: dropdown
     id: component
     attributes:
       label: Component / Componente
-      options: [WoW addon, Windows Sync, Web dashboard]
+      options: [WoW addon, Windows Sync, macOS Sync, Linux Sync, Web dashboard]
     validations:
       required: true
   - type: input
     id: version
     attributes:
       label: Version and client / Versión y cliente
-      description: "Example: addon 0.6.6, official Forever; Sync 0.4.0, Windows 11. No account names."
+      description: "Include your OS and architecture: e.g. Sync 0.4.1, macOS 14 Apple Silicon; Linux x64 with GNOME/X11. No account names."
     validations:
       required: true
   - type: textarea

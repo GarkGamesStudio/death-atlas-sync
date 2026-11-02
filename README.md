@@ -1,5 +1,7 @@
 # macOS and Linux preview — 0.4.1
 
+Download the native packages, checksums and build reports from [the macOS / Linux preview release](https://github.com/GarkGamesStudio/death-atlas-sync/releases/tag/v0.4.1-posix), or use [the website downloads](https://garkgames.com/death-atlas/about/#downloads).
+
 New native builds for macOS Intel, macOS Apple Silicon and Linux x64. **Not tested with WoW or the official Forever service.** CI builds and launches the real packaged program and checks Tk and the native credential store; this is not an in-game or desktop usability test.
 
 Windows users should continue using the published 0.4.0 Windows release; its EXE and settings remain unchanged.
