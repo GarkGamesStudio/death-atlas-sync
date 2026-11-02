@@ -7,13 +7,13 @@
   "notice": "Ao clicar em OK, você permite compartilhar seu histórico de mortes, inclusive registros anteriores, e baixar os dados Global. As contribuições históricas não expiram automaticamente; fechar o Sync não as apaga.",
   "privacy": "Dados e privacidade",
   "initial": "Escolha a pasta ou clique em Detectar.",
-  "no_history": "Nenhum histórico encontrado. Entre no WoW uma vez com o addon e feche o jogo, ou escolha outra pasta.",
+  "no_history": "Death Atlas não encontrado. Escolha a pasta do WoW. Não é necessário histórico.",
   "multiple": "Várias contas encontradas. Escolha uma e clique em OK.",
   "found": "WoW encontrado. Clique em OK para verificar e continuar.",
   "searching": "Procurando WoW…",
   "search_failed": "A busca não foi concluída. Use Escolher pasta.",
   "verifying": "Verificando e sincronizando…",
-  "invalid_folder": "Escolha uma pasta com Death Atlas instalado e uma conta com histórico salvo.",
+  "invalid_folder": "Este programa requer o addon Death Atlas. Instale e ative no WoW, depois escolha a pasta com Interface e WTF. Você pode configurar o Sync sem mortes e sem entrar no jogo antes.",
   "start_failed": "Não foi possível iniciar o Sync",
   "tray_failed": "Não foi possível criar o ícone na bandeja do system. Feche e abra o Sync novamente.",
   "configure": "Configurar",
@@ -76,5 +76,9 @@
   "linux_store": "Não foi possível acessar o armazenamento seguro. Confira o chaveiro e suas permissões. Nada foi redefinido.",
   "linux_key": "A chave das configurações existentes está ausente. Restaure o chaveiro original ou contate o suporte. Não exclua configurações nem o chaveiro.",
   "linux_config": "Não foi possível abrir as configurações existentes. O arquivo foi preservado. Confira o chaveiro original ou contate o suporte sem compartilhar chaves ou arquivos de configuração.",
-  "linux_open": "O Sync já está aberto. Volte à janela existente; ela pode estar minimizada."
+  "linux_open": "O Sync já está aberto. Volte à janela existente; ela pode estar minimizada.",
+  "pending_account": "Aguardando primeiro acesso",
+  "pending_save": "Pronto. Aguardando o primeiro salvamento. Ative Compartilhar em /da e feche o WoW; nenhuma morte é necessária.",
+  "pending_success": "Configuração salva. O Sync aguardará sua primeira sessão com Death Atlas ativo e compartilhamento permitido. Depois feche o WoW. Não é necessário morrer. Obrigado por usar o Death Atlas Sync.",
+  "update_available": "Sync {version} disponível. Abra Sobre para baixar."
 }

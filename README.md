@@ -1,3 +1,11 @@
+# Windows setup and update notifications — 0.4.4
+
+Windows setup now accepts an installed Death Atlas addon before the first game login. No account save or death history is required to click OK. Sync stays in the background waiting for the first addon save; enable the addon and Sharing in `/da`, then close WoW. Detection proves the addon is installed, not that it is enabled in the game. Once a unique account save appears, Sync selects it without reading history until WoW is closed. If multiple accounts appear, use Configure and Detect to choose one. Missing addons have explicit installation guidance. Detect also checks common portable game folders at one bounded directory level, including custom folder names.
+
+Once configured and enabled, Sync checks public version metadata at `https://garkgames.com/death-atlas/sync-updates.json` at most once every 24 hours. This request contains no history, installation path, account identifier or Sync key. A newer version produces a tray notification and a download button in About. The button opens the fixed website download page; Sync never downloads or executes a new program automatically. An update-check failure does not block synchronization. Published macOS/Linux binaries retain their previous behavior until rebuilt.
+
+Extract the entire Windows ZIP and keep `_internal` beside the EXE. Close the previous Sync before upgrading, preserve existing settings and click OK if you use Start with Windows, to update its path. Native CI, local antivirus scan results and package checksums are recorded on each release; unsigned software cannot guarantee acceptance by all antivirus products.
+
 # Windows portable folder — 0.4.3
 
 Use the [Windows 0.4.3 release](https://github.com/GarkGamesStudio/death-atlas-sync/releases/tag/v0.4.3) or [website downloads](https://garkgames.com/death-atlas/about/#downloads). **Extract the entire ZIP and keep `_internal` beside `DeathAtlasSync.exe`.** No Python installation is needed. Close the older Sync before upgrading and keep its existing protected settings. If you use Start with Windows, click OK in the new setup to update its path.

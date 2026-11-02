@@ -19,7 +19,7 @@ jobs:
       - name: Windows consent, settings and interface tests
         run: |
           $ErrorActionPreference = 'Stop'
-          $tests = @('languages.py','discovery_tests.py','compact_setup.py','localized_windows.py','native_tray.py','startup.py','process_visibility.py','setup_diagnostics.py','erasure.py','policy_tests.py')
+          $tests = @('languages.py','discovery_tests.py','prelaunch_updates.py','compact_setup.py','localized_windows.py','native_tray.py','startup.py','process_visibility.py','setup_diagnostics.py','erasure.py','policy_tests.py')
           foreach ($test in $tests) {
             python "tests/$test"
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

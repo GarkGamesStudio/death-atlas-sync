@@ -4,6 +4,7 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import engine
+import updates
 from branding import apply_window_icon, tray_image
 from localization import tr, font_family
 SOURCE_URL = 'https://github.com/GarkGamesStudio/death-atlas-sync'
@@ -87,7 +88,7 @@ class App:
                 from linux_desktop import show_help
                 ttk.Button(desktop_actions,text=tr('linux_help'),command=lambda:show_help(root)).pack(side='left',padx=6)
         profile = self.state.get('selected')
-        if profile and Path(profile['saved']).is_file() and (Path(profile['addon']) / 'DeathAtlas.toc').is_file():
+        if profile and (Path(profile['addon']) / 'DeathAtlas.toc').is_file():
             self.set_candidates([profile], profile)
         else:
             self.rescan()
@@ -121,9 +122,9 @@ class App:
             self.folder.set(str(Path(self.candidates[index]['addon']).parents[2]))
 
     def profile_label(self, profile):
-        saved = Path(profile['saved'])
         client = Path(profile['addon']).parents[2]
-        return saved.parents[1].name + ' · ' + client.name + ' · ' + str(client.parent)
+        account = Path(profile['saved']).parents[1].name if profile.get('saved') else tr('pending_account')
+        return account + ' · ' + client.name + ' · ' + str(client.parent)
 
     def set_candidates(self, values, preferred=None):
         self.candidates = values
@@ -169,7 +170,7 @@ class App:
     def choose(self):
         if self.busy:
             return
-        path = filedialog.askdirectory(title='Elige la carpeta de WoW', parent=self.root)
+        path = filedialog.askdirectory(title=tr('folder'), parent=self.root)
         if path:
             self.scan_generation += 1
             self.scanning = False
@@ -204,7 +205,7 @@ class App:
                         return
                     self.state.update(selected=profile, consent=True, consentPolicy=engine.POLICY, enabled=False)
                     self.store.write(self.state)
-                    result = engine.sync_profile(profile, self.state, self.store, self.service, self.quit.is_set)
+                    result = engine.sync_profile(profile, self.state, self.store, self.service, self.quit.is_set) if profile.get('saved') else {'waiting':True}
                     if self.quit.is_set():
                         return
                     try:
@@ -254,6 +255,9 @@ class App:
         ttk.Label(frame, image=self.window_icon).pack(anchor='w', pady=(0, 6))
         ttk.Label(frame, text='Death Atlas Sync ' + engine.VERSION, font=(font_family(), 13, 'bold')).pack(anchor='w')
         ttk.Label(frame, text=tr('about_text', status=self.last_status), wraplength=430).pack(anchor='w', pady=12)
+        update=self.state.get('updates',{}).get('available')
+        if update:
+            ttk.Button(frame,text=tr('update_available',version=update['version']),command=lambda:webbrowser.open(updates.DOWNLOADS)).pack(fill='x',pady=(0,8))
         ttk.Button(frame, text=tr('github'), command=lambda: webbrowser.open(SOURCE_URL)).pack(fill='x')
         ttk.Button(frame, text=tr('privacy'), command=lambda: webbrowser.open(PRIVACY_URL)).pack(fill='x', pady=5)
         ttk.Button(frame, text=tr('licenses'), command=self.licenses).pack(fill='x')
@@ -330,11 +334,18 @@ class App:
                     self.set_busy(False)
                     self.paused.clear()
                     self.last_error = ''
-                    self.last_status = tr('connected', time=time.strftime('%H:%M'))
+                    pending=value[1].get('waiting',False)
+                    self.last_status = tr('pending_save') if pending else tr('connected', time=time.strftime('%H:%M'))
                     self.status.set(self.last_status)
                     if self.icon:
                         self.root.withdraw()
-                    messagebox.showinfo('Death Atlas Sync', tr('success') if self.icon else tr('foreground_success'), parent=self.root)
+                    messagebox.showinfo('Death Atlas Sync', tr('pending_success') if pending else (tr('success') if self.icon else tr('foreground_success')), parent=self.root)
+                    self.wake.set()
+                elif kind == 'update_available':
+                    if self.icon:
+                        try:self.icon.notify(tr('update_available',version=value[1]),'Death Atlas Sync')
+                        except Exception:pass
+                    else:self.status.set(tr('update_available',version=value[1]))
                 elif kind == 'setup_error':
                     self.set_busy(False)
                     self.last_status = value[1]
@@ -389,12 +400,24 @@ class App:
                     if self.paused.is_set() or self.quit.is_set():
                         continue
                     profile = dict(self.state['selected'])
-                    saved = Path(profile['saved'])
-                    stat = saved.stat()
-                    current = (str(saved), stat.st_mtime_ns, stat.st_size, engine.refresh_slot())
+                    update,changed=updates.check(self.state,engine.VERSION)
+                    if changed:
+                        self.store.write(self.state)
+                        if update and self.state['updates'].get('notified')!=update['version']:
+                            self.messages.put(('update_available',update['version']))
+                            self.state['updates']['notified']=update['version'];self.store.write(self.state)
                     if engine.data.wow_running():
                         self.messages.put(('status', tr('waiting')))
                         continue
+                    resolved=engine.ready_profile(profile)
+                    if resolved!=profile:
+                        profile=resolved;self.state['selected']=profile;self.store.write(self.state)
+                    if not profile.get('saved') or not Path(profile['saved']).is_file():
+                        self.messages.put(('status',tr('pending_save')))
+                        continue
+                    saved = Path(profile['saved'])
+                    stat = saved.stat()
+                    current = (str(saved), stat.st_mtime_ns, stat.st_size, engine.refresh_slot())
                     if current != signature or force:
                         engine.sync_profile(profile, self.state, self.store, self.service, lambda: self.paused.is_set() or self.quit.is_set())
                         signature = current

@@ -7,13 +7,13 @@
   "notice": "By clicking OK you allow your death history (including earlier records) to be shared and Global data downloaded. Historical contributions have no automatic expiry; closing Sync does not erase them.",
   "privacy": "Data and privacy",
   "initial": "Choose your folder or click Detect.",
-  "no_history": "No history found. Enter WoW once with the addon installed and close the game, or choose another folder.",
+  "no_history": "No Death Atlas installation found. Choose your WoW folder. No saved history is required.",
   "multiple": "Several accounts found. Choose one and click OK.",
   "found": "WoW found. Click OK to check and continue.",
   "searching": "Looking for WoW…",
   "search_failed": "Search could not finish. Use Choose folder.",
   "verifying": "Checking and synchronizing…",
-  "invalid_folder": "Choose a folder with Death Atlas installed and an account with saved history.",
+  "invalid_folder": "This program requires the Death Atlas addon. Install and enable it in WoW, then choose the folder containing Interface and WTF. You do not need any deaths or a first login to configure Sync.",
   "start_failed": "Could not start Sync",
   "tray_failed": "Could not create the system tray icon. Close Sync and try again.",
   "configure": "Configure",
@@ -76,5 +76,9 @@
   "linux_store": "Secure storage could not be accessed. Check your desktop keyring and its permissions, then check again. Nothing was reset.",
   "linux_key": "The encryption key for existing settings is missing. Restore the original keyring or contact support. Do not delete your settings or keyring.",
   "linux_config": "Existing settings could not be opened. The file was preserved. Check your original keyring or contact support without sharing keys or settings files.",
-  "linux_open": "Sync is already open. Switch to its existing window; it may be minimized."
+  "linux_open": "Sync is already open. Switch to its existing window; it may be minimized.",
+  "pending_account": "Waiting for first login",
+  "pending_save": "Ready. Waiting for the first addon save. Enable Sharing in /da and close WoW; no deaths are required.",
+  "pending_success": "Setup saved. Sync will wait for your first WoW session with Death Atlas enabled and Sharing allowed. Close WoW afterwards. No deaths are required. Thank you for using Death Atlas Sync.",
+  "update_available": "Sync {version} is available. Open About to download it."
 }

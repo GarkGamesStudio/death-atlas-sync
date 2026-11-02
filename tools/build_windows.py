@@ -19,7 +19,7 @@ This is a standard folder distribution with visible runtime files, not the previ
 
 Upgrade: close the old Sync from its tray, keep your existing protected settings, extract this complete folder, open the EXE and review setup. If you use Start with Windows, click OK to update its path. Windows DPAPI settings and connection keys keep the same location and schema. No history or settings reset is required.
 
-Sync works with WoW closed and requires explicit sharing permission. It does not ask for a game password. Official Forever validation remains pending. New uploads join the next successful daily edition at 06:00 UTC.
+Setup only requires the Death Atlas addon to be installed, even before your first login. No deaths or history are required. Sync waits for the first addon save; enable Sharing in /da and close WoW. Detect can find addon-only installations. Once configured, it checks our public website for a newer Sync version once per day and offers a download link in About. Updates are never automatically downloaded or installed. Sync works with WoW closed and requires explicit sharing permission. It does not ask for a game password. Official Forever validation remains pending. New uploads join the next successful daily edition at 06:00 UTC.
 
 Español: Extrae TODO el ZIP y abre DeathAtlasSync.exe. Conserva la carpeta _internal al lado del EXE; no muevas solo el ejecutable. No necesitas instalar Python. Cierra el Sync anterior y conserva tu configuración. Si usas Inicio con Windows, pulsa OK en la nueva versión para actualizar la ruta. El EXE no tiene firma digital. La detección de la versión anterior está en revisión; no desactives el antivirus ni añadas exclusiones. Falta validar el cliente oficial de Forever.
 

@@ -7,7 +7,7 @@ from urllib.request import Request,build_opener
 import deathatlas as data
 DEFAULT_SERVICE='https://garkgames.com/api/deathatlas'
 POLICY='2026-11-01'
-VERSION='0.4.3'
+VERSION='0.4.4'
 class SyncError(ValueError):pass
 
 def consented(state):
@@ -67,6 +67,15 @@ class Settings:
 
 from discovery import detect, automatic_roots, discover
 
+def ready_profile(profile):
+ """Resolve an addon-only installation once its first account save exists; no save contents read."""
+ if not (Path(profile['addon'])/'DeathAtlas.toc').is_file():raise CheckError('ADDON_MISSING','Addon missing')
+ if profile.get('saved'):return profile
+ candidates=detect(Path(profile['addon']).parents[2])
+ ready=[p for p in candidates if p.get('saved') and p['addon']==profile['addon']]
+ if len(ready)>1:raise CheckError('ACCOUNT_CHOICE','Choose an account in Configure')
+ return ready[0] if ready else profile
+
 def identity(saved):
  raw=Path(saved).read_bytes()
  if len(raw)>data.MAX_BYTES:raise SyncError('Archivo demasiado grande')
@@ -81,6 +90,7 @@ class CheckError(SyncError):
 def local_check(profile):
  """Read-only preflight, shared by setup and synchronization. Never evaluates Lua."""
  if data.wow_running():raise CheckError('WOW_OPEN','Cierra todos los clientes de WoW para leer un guardado estable.')
+ if not profile.get('saved'):raise CheckError('SAVE_MISSING','Waiting for first save')
  saved=Path(profile['saved'])
  if not (Path(profile['addon'])/'DeathAtlas.toc').is_file():raise CheckError('ADDON_MISSING','No se encuentra DeathAtlas.toc. Instala el addon o vuelve a elegir la carpeta.')
  try:
@@ -108,7 +118,7 @@ def describe_error(exc):
  code='UNEXPECTED';key='error_unexpected'
  if isinstance(exc,CheckError):
   code=exc.code
-  key={'ERASURE':'erasure_blocked','NO_KEY':'erasure_no_key','WOW_OPEN':'waiting','ADDON_MISSING':'error_file','FILE_TOO_LARGE':'error_size','SCHEMA':'error_invalid','SHARING_OFF':'error_sharing','FILE_CHANGING':'error_changed','SAVE_MISSING':'error_file','FILE_ACCESS':'error_access','SAVE_INVALID':'error_invalid','TRAY':'tray_failed','STARTUP':'startup_failed'}.get(code,'error_invalid')
+  key={'ACCOUNT_CHOICE':'multiple','ERASURE':'erasure_blocked','NO_KEY':'erasure_no_key','WOW_OPEN':'waiting','ADDON_MISSING':'invalid_folder','FILE_TOO_LARGE':'error_size','SCHEMA':'error_invalid','SHARING_OFF':'error_sharing','FILE_CHANGING':'error_changed','SAVE_MISSING':'pending_save','FILE_ACCESS':'error_access','SAVE_INVALID':'error_invalid','TRAY':'tray_failed','STARTUP':'startup_failed'}.get(code,'error_invalid')
  elif isinstance(exc,HTTPError):
   code='HTTP_'+str(exc.code);key={401:'error_auth',403:'error_auth',404:'error_noapi',409:'error_auth',413:'error_size',429:'error_rate',503:'error_service'}.get(exc.code,'error_service')
  else:
@@ -219,6 +229,7 @@ def revoke(profile,state,store,service=DEFAULT_SERVICE):
 
 def request_erasure(profile,state,store,service=DEFAULT_SERVICE):
  """Explicit user action; retains the DPAPI key for idempotent retry/status on a revoked device."""
+ if not profile.get('saved'):raise CheckError('NO_KEY','No registered key')
  key=endpoint(service)+'|'+identity(profile['saved'])
  credentials=state.get('profiles',{}).get(key)
  if not credentials or not credentials.get('registered') or not credentials.get('token'):

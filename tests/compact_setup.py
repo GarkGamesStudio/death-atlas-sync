@@ -30,6 +30,13 @@ class CompactSetup(unittest.TestCase):
   self.assertFalse(self.ui.busy)
  def test_initial_detection_does_not_authorize_upload(self):
   self.ui.set_candidates(PROFILES[:1]);self.assertEqual(self.store.writes,[]);self.assertTrue(self.ui.paused.is_set());self.assertFalse(self.ui.account_row.winfo_manager())
+ def test_prelaunch_setup_accepts_addon_without_history_or_network(self):
+  pending=dict(PROFILES[0],saved=None);self.ui.set_candidates([pending])
+  with patch.object(app.engine,'sync_profile',side_effect=AssertionError('No upload before save')) as sync:
+   self.ui.start();self.wait();sync.assert_not_called()
+  self.assertTrue(self.ui.state['enabled']);self.assertFalse(self.ui.paused.is_set())
+  self.assertIsNone(self.ui.state['selected']['saved']);self.assertEqual(self.ui.last_status,app.tr('pending_save'))
+  self.assertEqual(self.mocks[3].call_args.args[1],app.tr('pending_success'))
  def test_multiple_accounts_require_choice(self):
   self.ui.set_candidates(PROFILES);self.ui.folder.set('')
   self.ui.start();self.assertTrue(self.mocks[4].called);self.assertEqual(self.store.writes,[])

@@ -7,13 +7,13 @@
   "notice": "点击确定即表示你同意共享死亡记录（包括以往记录）并下载 Global 数据。历史贡献数据不会自动过期；关闭 Sync 不会删除这些数据。",
   "privacy": "数据与隐私",
   "initial": "选择文件夹或点击自动检测。",
-  "no_history": "未找到记录。请启用插件进入一次 WoW 后退出，或选择其他文件夹。",
+  "no_history": "未找到 Death Atlas。请选择 WoW 文件夹。无需历史记录。",
   "multiple": "找到多个账号。请选择一个并点击确定。",
   "found": "已找到 WoW。点击确定以检查并继续。",
   "searching": "正在查找 WoW…",
   "search_failed": "搜索未完成。请使用选择文件夹。",
   "verifying": "正在检查并同步…",
-  "invalid_folder": "请选择已安装 Death Atlas 的文件夹和已有保存记录的账号。",
+  "invalid_folder": "本程序需要 Death Atlas 插件。请在 WoW 中安装并启用它，然后选择包含 Interface 和 WTF 的文件夹。无需死亡记录或首次登录即可配置 Sync。",
   "start_failed": "无法启动 Sync",
   "tray_failed": "无法创建 system 托盘图标。请关闭并重新打开 Sync。",
   "configure": "配置",
@@ -76,5 +76,9 @@
   "linux_store": "无法访问安全存储。请检查桌面密钥环及权限后重试。未重置任何内容。",
   "linux_key": "现有设置的加密密钥缺失。请恢复原来的密钥环或联系支持。不要删除设置或密钥环。",
   "linux_config": "无法打开现有设置。文件已保留。请检查原来的密钥环或联系支持，不要分享密钥或设置文件。",
-  "linux_open": "Sync 已经打开。请切换到现有窗口；它可能已最小化。"
+  "linux_open": "Sync 已经打开。请切换到现有窗口；它可能已最小化。",
+  "pending_account": "等待首次登录",
+  "pending_save": "已就绪，等待插件首次保存。请在 /da 中启用共享并退出 WoW，无需死亡记录。",
+  "pending_success": "设置已保存。Sync 将等待首次启用 Death Atlas 并允许共享的游戏会话。之后请退出 WoW。无需死亡记录。感谢使用 Death Atlas Sync。",
+  "update_available": "Sync {version} 已推出。请打开关于页面下载。"
 }

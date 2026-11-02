@@ -7,13 +7,13 @@
   "notice": "Mit OK erlaubst du das Teilen deines Todesverlaufs, einschließlich früherer Einträge, und das Laden der Global-Daten. Historische Beiträge werden unbefristet gespeichert; das Schließen von Sync löscht sie nicht.",
   "privacy": "Daten und Datenschutz",
   "initial": "Wähle den Ordner oder klicke auf Erkennen.",
-  "no_history": "Kein Verlauf gefunden. Starte WoW einmal mit dem Addon und beende es oder wähle einen anderen Ordner.",
+  "no_history": "Death Atlas wurde nicht gefunden. Wähle deinen WoW-Ordner. Ein Verlauf ist nicht erforderlich.",
   "multiple": "Mehrere Konten gefunden. Wähle eines und klicke auf OK.",
   "found": "WoW gefunden. Klicke zum Prüfen und Fortfahren auf OK.",
   "searching": "WoW wird gesucht…",
   "search_failed": "Suche nicht abgeschlossen. Verwende Ordner wählen.",
   "verifying": "Verbindung wird geprüft und synchronisiert…",
-  "invalid_folder": "Wähle einen Ordner mit Death Atlas und ein Konto mit gespeichertem Verlauf.",
+  "invalid_folder": "Dieses Programm benötigt das Addon Death Atlas. Installiere und aktiviere es in WoW und wähle den Ordner mit Interface und WTF. Sync lässt sich ohne Todesfälle und ohne erste Anmeldung einrichten.",
   "start_failed": "Sync konnte nicht gestartet werden",
   "tray_failed": "Das system-Infobereichssymbol konnte nicht erstellt werden. Starte Sync neu.",
   "configure": "Konfigurieren",
@@ -76,5 +76,9 @@
   "linux_store": "Kein Zugriff auf den sicheren Speicher. Schlüsselbund und Berechtigungen prüfen. Nichts wurde zurückgesetzt.",
   "linux_key": "Der Schlüssel für vorhandene Einstellungen fehlt. Ursprünglichen Schlüsselbund wiederherstellen oder Support kontaktieren. Keine Einstellungen oder Schlüsselbunde löschen.",
   "linux_config": "Vorhandene Einstellungen konnten nicht geöffnet werden. Die Datei bleibt erhalten. Schlüsselbund prüfen oder Support kontaktieren, ohne Schlüssel oder Einstellungsdateien zu teilen.",
-  "linux_open": "Sync ist bereits geöffnet. Wechsle zum vorhandenen Fenster; es ist möglicherweise minimiert."
+  "linux_open": "Sync ist bereits geöffnet. Wechsle zum vorhandenen Fenster; es ist möglicherweise minimiert.",
+  "pending_account": "Warten auf erste Anmeldung",
+  "pending_save": "Bereit. Warte auf den ersten Addon-Spielstand. Aktiviere Teilen unter /da und schließe WoW. Todesfälle sind nicht erforderlich.",
+  "pending_success": "Einrichtung gespeichert. Sync wartet auf deine erste Sitzung mit aktiviertem Death Atlas und erlaubtem Teilen. Schließe WoW danach. Todesfälle sind nicht erforderlich. Danke für die Nutzung von Death Atlas Sync.",
+  "update_available": "Sync {version} ist verfügbar. Öffne Über, um es herunterzuladen."
 }

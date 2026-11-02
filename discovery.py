@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 CLIENTS=('_forever_','_retail_','_camelot_')
-NAMES=('World of Warcraft','WoW','WoW Forever','Forever')
+NAMES=('World of Warcraft','WoW','WoW Forever','WoWForever','World of Warcraft Forever','Forever')
 
 def unique(paths):
  result=[];seen=set()
@@ -72,6 +72,9 @@ def battle_net_roots():
 
 def automatic_roots(preferred=()):
  roots=list(preferred)+registry_roots()+battle_net_roots()
+ # Inspect one directory level in common portable-game locations, even with a custom name.
+ # Bounded to 256 entries per location; no recursive disk traversal or save reads.
+ containers=[Path.home()/'Downloads',Path.home()/'Desktop',Path.home()/'Games']
  if sys.platform=='darwin':
   roots.extend(Path('/Applications')/name for name in NAMES)
   roots.extend(Path.home()/'Applications'/name for name in NAMES)
@@ -86,8 +89,15 @@ def automatic_roots(preferred=()):
   if base:
    roots.extend(Path(base)/name for name in NAMES)
  for drive in fixed_drives():
+  containers.extend(drive/name for name in ('Games','Download','Downloads'))
   for container in ('','Games','Blizzard','Program Files','Program Files (x86)'):
    roots.extend(drive/container/name for name in NAMES)
+ for container in unique(containers):
+  try:
+   for index,path in enumerate(container.iterdir()):
+    if index>=256:break
+    if path.is_dir() and not path.is_symlink():roots.append(path)
+  except OSError:pass
  # Portable installations can keep Sync beside the game, including local test labs.
  origin=Path(sys.executable if getattr(sys,'frozen',False) else __file__).resolve().parent
  for parent in [origin]+list(origin.parents)[:4]:
@@ -109,10 +119,11 @@ def detect(root):
   try:
    if not (addon/'DeathAtlas.toc').is_file():continue
    accounts=client/'WTF'/'Account'
-   if not accounts.is_dir():continue
-   for account in sorted(accounts.iterdir()):
+   found=[]
+   for account in sorted(accounts.iterdir()) if accounts.is_dir() else []:
     saved=account/'SavedVariables'/'DeathAtlas.lua'
-    if saved.is_file():result.append({'saved':str(saved.resolve()),'addon':str(addon.resolve())})
+    if saved.is_file():found.append({'saved':str(saved.resolve()),'addon':str(addon.resolve())})
+   result.extend(found or [{'saved':None,'addon':str(addon.resolve())}])
   except OSError:continue
  return result
 
@@ -120,6 +131,6 @@ def discover(preferred=()):
  profiles=[];seen=set()
  for root in automatic_roots(preferred):
   for profile in detect(root):
-   key=os.path.normcase(profile['saved'])
+   key=os.path.normcase(profile['saved'] or profile['addon'])
    if key not in seen:seen.add(key);profiles.append(profile)
  return profiles

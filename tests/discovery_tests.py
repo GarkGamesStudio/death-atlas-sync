@@ -31,10 +31,10 @@ class DiscoveryTests(unittest.TestCase):
  def test_multiple_accounts(self):
   install(self.root,'SECOND');install(self.root,'FIRST')
   self.assertEqual(len(discovery.detect(self.root)),2)
- def test_missing_addon_or_history_is_not_syncable(self):
+ def test_addon_only_install_can_be_configured_without_history(self):
   self.assertEqual(discovery.detect(self.root),[])
   addon=self.root/'Interface'/'AddOns'/'DeathAtlas';addon.mkdir(parents=True);(addon/'DeathAtlas.toc').touch()
-  self.assertEqual(discovery.detect(self.root),[])
+  self.assertEqual(discovery.detect(self.root),[{'saved':None,'addon':str(addon.resolve())}])
  def test_duplicates_and_sibling_clients(self):
   p=install(self.root/'_forever_');q=install(self.root/'_retail_')
   with patch.object(discovery,'automatic_roots',return_value=[self.root,self.root/'_forever_']):
