@@ -75,5 +75,6 @@
   "linux_collection": "No default keyring exists. Create a default Login keyring in Passwords and Keys (Seahorse), or configure Secret Service in your desktop.",
   "linux_store": "Secure storage could not be accessed. Check your desktop keyring and its permissions, then check again. Nothing was reset.",
   "linux_key": "The encryption key for existing settings is missing. Restore the original keyring or contact support. Do not delete your settings or keyring.",
-  "linux_config": "Existing settings could not be opened. The file was preserved. Check your original keyring or contact support without sharing keys or settings files."
+  "linux_config": "Existing settings could not be opened. The file was preserved. Check your original keyring or contact support without sharing keys or settings files.",
+  "linux_open": "Sync is already open. Switch to its existing window; it may be minimized."
 }

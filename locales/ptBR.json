@@ -75,5 +75,6 @@
   "linux_collection": "Não há chaveiro padrão. Crie um chaveiro de login padrão no Seahorse ou configure Secret Service.",
   "linux_store": "Não foi possível acessar o armazenamento seguro. Confira o chaveiro e suas permissões. Nada foi redefinido.",
   "linux_key": "A chave das configurações existentes está ausente. Restaure o chaveiro original ou contate o suporte. Não exclua configurações nem o chaveiro.",
-  "linux_config": "Não foi possível abrir as configurações existentes. O arquivo foi preservado. Confira o chaveiro original ou contate o suporte sem compartilhar chaves ou arquivos de configuração."
+  "linux_config": "Não foi possível abrir as configurações existentes. O arquivo foi preservado. Confira o chaveiro original ou contate o suporte sem compartilhar chaves ou arquivos de configuração.",
+  "linux_open": "O Sync já está aberto. Volte à janela existente; ela pode estar minimizada."
 }

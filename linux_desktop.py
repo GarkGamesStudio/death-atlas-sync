@@ -23,8 +23,8 @@ class Setup:
   distro,command=credentials.instructions()
   if command:
    ttk.Label(self.details,text=distro).pack(anchor='w')
-   value=tk.StringVar(value=command)
-   ttk.Entry(self.details,textvariable=value,state='readonly',width=60).pack(fill='x',pady=5)
+   self.command=tk.StringVar(value=command)
+   ttk.Entry(self.details,textvariable=self.command,state='readonly',width=60).pack(fill='x',pady=5)
   row=ttk.Frame(self.frame);row.pack(fill='x',pady=(12,0))
   self.row=row
   self.unlock=ttk.Button(row,text=tr('linux_unlock'),command=lambda:self.run(True));self.unlock.pack(side='left')

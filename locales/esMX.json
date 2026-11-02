@@ -75,5 +75,6 @@
   "linux_collection": "No existe un llavero predeterminado. Crea uno de inicio de sesión en Contraseñas y claves (Seahorse) o configura Secret Service en tu escritorio.",
   "linux_store": "No se pudo acceder al llavero. Revisa el llavero del escritorio y sus permisos y vuelve a comprobar. No se restableció nada.",
   "linux_key": "Falta la clave de cifrado de la configuración existente. Restaura el llavero original o contacta con soporte. No borres la configuración ni el llavero.",
-  "linux_config": "No se pudo abrir la configuración existente. El archivo se conservó. Revisa tu llavero original o contacta con soporte sin compartir claves ni archivos de configuración."
+  "linux_config": "No se pudo abrir la configuración existente. El archivo se conservó. Revisa tu llavero original o contacta con soporte sin compartir claves ni archivos de configuración.",
+  "linux_open": "Sync ya está abierto. Busca su ventana; puede estar minimizada."
 }

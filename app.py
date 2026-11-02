@@ -435,7 +435,7 @@ def main():
         if os.name!='nt':
             instance=acquire_instance()
             if instance is None:
-                messagebox.showinfo('Death Atlas Sync',tr('already_open'));root.destroy();return
+                messagebox.showinfo('Death Atlas Sync',tr('linux_open') if sys.platform.startswith('linux') else tr('already_open'));root.destroy();return
         path = settings_path()
         store=engine.Settings(path)
         if sys.platform.startswith('linux'):

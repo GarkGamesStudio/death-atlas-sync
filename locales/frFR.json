@@ -75,5 +75,6 @@
   "linux_collection": "Aucun trousseau par défaut. Créez un trousseau de connexion par défaut dans Seahorse ou configurez Secret Service.",
   "linux_store": "Stockage sécurisé inaccessible. Vérifiez le trousseau et ses autorisations, puis réessayez. Rien n’a été réinitialisé.",
   "linux_key": "La clé de chiffrement des réglages existants manque. Restaurez le trousseau d’origine ou contactez le support. Ne supprimez rien.",
-  "linux_config": "Impossible d’ouvrir les réglages existants. Le fichier est conservé. Vérifiez le trousseau d’origine ou contactez le support sans partager de clés ni de fichiers de réglages."
+  "linux_config": "Impossible d’ouvrir les réglages existants. Le fichier est conservé. Vérifiez le trousseau d’origine ou contactez le support sans partager de clés ni de fichiers de réglages.",
+  "linux_open": "Sync est déjà ouvert. Revenez à sa fenêtre ; elle est peut-être réduite."
 }

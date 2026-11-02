@@ -33,6 +33,15 @@ class Desktop(unittest.TestCase):
   from localization import tr
   ready=Mock();self.store.read.side_effect=ValueError('private data');view=Setup(self.root,self.store,ready)
   self.settle(lambda:view.status.get()==tr('linux_config'));ready.assert_not_called();self.store.write.assert_not_called()
+ def test_help_keeps_package_example_visible_and_read_only(self):
+  from linux_desktop import Setup
+  from localization import tr
+  import gc
+  with patch.object(c,'instructions',return_value=('Test distro','example command')):
+   view=Setup(self.root);self.settle(lambda:view.status.get()==tr('linux_ready'));gc.collect()
+   self.assertEqual(view.command.get(),'example command')
+   entries=[child for child in view.details.winfo_children() if child.winfo_class()=='TEntry']
+   self.assertEqual(len(entries),1);self.assertEqual(str(entries[0]['state']),'readonly')
  def test_cancelled_unlock_can_retry_without_starting_sync(self):
   from linux_desktop import Setup
   from localization import tr

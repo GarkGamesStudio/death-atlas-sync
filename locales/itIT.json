@@ -75,5 +75,6 @@
   "linux_collection": "Portachiavi predefinito assente. Creane uno di accesso in Seahorse oppure configura Secret Service.",
   "linux_store": "Archivio sicuro non accessibile. Controlla portachiavi e permessi, poi riprova. Nulla è stato reimpostato.",
   "linux_key": "Manca la chiave delle impostazioni esistenti. Ripristina il portachiavi originale o contatta il supporto. Non eliminare le impostazioni o il portachiavi.",
-  "linux_config": "Impossibile aprire le impostazioni esistenti. Il file è conservato. Controlla il portachiavi originale o contatta il supporto senza condividere chiavi o file di impostazioni."
+  "linux_config": "Impossibile aprire le impostazioni esistenti. Il file è conservato. Controlla il portachiavi originale o contatta il supporto senza condividere chiavi o file di impostazioni.",
+  "linux_open": "Sync è già aperto. Torna alla sua finestra; potrebbe essere ridotta."
 }

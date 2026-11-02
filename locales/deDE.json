@@ -75,5 +75,6 @@
   "linux_collection": "Kein Standard-Schlüsselbund vorhanden. In Seahorse einen Standard-Anmeldeschlüsselbund erstellen oder Secret Service einrichten.",
   "linux_store": "Kein Zugriff auf den sicheren Speicher. Schlüsselbund und Berechtigungen prüfen. Nichts wurde zurückgesetzt.",
   "linux_key": "Der Schlüssel für vorhandene Einstellungen fehlt. Ursprünglichen Schlüsselbund wiederherstellen oder Support kontaktieren. Keine Einstellungen oder Schlüsselbunde löschen.",
-  "linux_config": "Vorhandene Einstellungen konnten nicht geöffnet werden. Die Datei bleibt erhalten. Schlüsselbund prüfen oder Support kontaktieren, ohne Schlüssel oder Einstellungsdateien zu teilen."
+  "linux_config": "Vorhandene Einstellungen konnten nicht geöffnet werden. Die Datei bleibt erhalten. Schlüsselbund prüfen oder Support kontaktieren, ohne Schlüssel oder Einstellungsdateien zu teilen.",
+  "linux_open": "Sync ist bereits geöffnet. Wechsle zum vorhandenen Fenster; es ist möglicherweise minimiert."
 }
