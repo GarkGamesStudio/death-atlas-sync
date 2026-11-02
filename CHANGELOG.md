@@ -1,3 +1,9 @@
+# 0.4.4 native builds — macOS and Linux
+
+- Bring setup without history, addon-only discovery and once-per-24-hour public update checks to Mac Intel, Apple Silicon and Linux x64. Newer versions link to the website from About; no automatic installation or download.
+- Run the prelaunch, update and real Tk interface tests on all three native CI targets, including POSIX setup with no tray icon. Preserve Linux secure-storage recovery tests and the actual packaged native credential-store check.
+- Preserve settings/keyring identities and the existing Windows release. macOS/Linux remain untested with WoW and official Forever; signing, desktop and keyring requirements still apply.
+
 # 0.4.4 — Setup before first login
 
 - Configure Windows Sync with the addon installed, without saved history or deaths; wait for the first addon save and sharing permission rather than rejecting setup.

@@ -1,5 +1,5 @@
 """Real Tk widgets, mocked transport/tray, synthetic profiles; no real settings writes."""
-import copy,gc,sys,time,unittest
+import copy,gc,os,sys,time,unittest
 from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
@@ -17,6 +17,7 @@ PROFILES=[{'addon':str(Path('fixture-'+name)/'Interface'/'AddOns'/'DeathAtlas'),
 
 class CompactSetup(unittest.TestCase):
  def setUp(self):
+  gc.collect()
   self.patchers=[patch.object(app.App,'tray',tray),patch.object(app.App,'loop'),patch.object(app.engine,'discover',return_value=[]),patch.object(app.messagebox,'showinfo'),patch.object(app.messagebox,'showerror')]
   self.mocks=[p.start() for p in self.patchers]
   self.root=app.tk.Tk();self.root.withdraw();self.store=Store();self.ui=app.App(self.root,self.store,app.engine.DEFAULT_SERVICE)
@@ -40,6 +41,14 @@ class CompactSetup(unittest.TestCase):
   self.assertTrue(self.ui.state['enabled']);self.assertFalse(self.ui.paused.is_set())
   self.assertIsNone(self.ui.state['selected']['saved']);self.assertEqual(self.ui.last_status,app.tr('pending_save'))
   self.assertEqual(self.mocks[3].call_args.args[1],app.tr('pending_success'))
+ @unittest.skipIf(os.name=='nt','Windows requires its tray icon')
+ def test_posix_prelaunch_setup_without_tray_keeps_window_open(self):
+  self.ui.icon=None;self.root.deiconify()
+  self.ui.set_candidates([dict(PROFILES[0],saved=None)])
+  with patch.object(app.engine,'sync_profile',side_effect=AssertionError('No upload before save')) as sync:
+   self.ui.start();self.wait();sync.assert_not_called()
+  self.assertTrue(self.ui.state['enabled']);self.assertFalse(self.ui.paused.is_set())
+  self.assertEqual(self.root.state(),'normal');self.assertEqual(self.ui.last_status,app.tr('pending_save'))
  def test_multiple_accounts_require_choice(self):
   self.ui.set_candidates(PROFILES);self.ui.folder.set('')
   self.ui.start();self.assertTrue(self.mocks[4].called);self.assertEqual(self.store.writes,[])
@@ -56,6 +65,7 @@ class CompactSetup(unittest.TestCase):
   with patch.object(app.engine,'sync_profile',side_effect=app.engine.SyncError('Fixture connection failure')),patch.object(self.ui,'configure') as show:
    self.ui.start();self.wait();self.assertTrue(show.called)
   self.assertTrue(self.ui.paused.is_set());self.assertFalse(self.ui.state['enabled']);self.assertTrue(self.mocks[4].called);self.assertFalse(self.mocks[3].called)
+ @unittest.skipUnless(os.name=='nt','Windows requires a tray; Linux uses a visible window')
  def test_tray_failure_prevents_upload(self):
   self.ui.set_candidates(PROFILES[:1]);self.ui.icon=None
   with patch.object(app.engine,'sync_profile') as transport,patch.object(self.ui,'configure'):
@@ -93,16 +103,19 @@ class CompactSetup(unittest.TestCase):
   with patch.object(app.engine,'sync_profile',return_value={}),patch.object(app.engine,'startup') as startup:
    self.ui.start();self.wait();startup.assert_not_called()
   self.assertFalse(self.store.writes[-1]['startup'])
+ @unittest.skipUnless(os.name=='nt','Automatic startup is Windows-only')
  def test_startup_opt_in_is_saved_after_success(self):
   self.ui.set_candidates(PROFILES[:1]);self.ui.autostart.set(True)
   with patch.object(app.engine,'sync_profile',return_value={}),patch.object(app.engine,'startup') as startup:
    self.ui.start();self.wait();startup.assert_called_once_with(True)
   self.assertTrue(self.store.writes[-1]['startup'])
+ @unittest.skipUnless(os.name=='nt','Automatic startup is Windows-only')
  def test_existing_startup_can_be_disabled(self):
   self.ui.state['startup']=True;self.ui.autostart.set(False);self.ui.set_candidates(PROFILES[:1])
   with patch.object(app.engine,'sync_profile',return_value={}),patch.object(app.engine,'startup') as startup:
    self.ui.start();self.wait();startup.assert_called_once_with(False)
   self.assertFalse(self.store.writes[-1]['startup'])
+ @unittest.skipUnless(os.name=='nt','Automatic startup is Windows-only')
  def test_startup_error_does_not_claim_success(self):
   self.ui.set_candidates(PROFILES[:1]);self.ui.autostart.set(True)
   with patch.object(app.engine,'sync_profile',return_value={}),patch.object(app.engine,'startup',side_effect=PermissionError),patch.object(self.ui,'configure'):

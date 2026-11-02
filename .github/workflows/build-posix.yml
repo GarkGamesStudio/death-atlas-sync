@@ -34,18 +34,29 @@ jobs:
           python tests/platform_tests.py
           python tests/languages.py
           python tests/discovery_tests.py
+          python tests/prelaunch_updates.py
+          python tests/setup_diagnostics.py
           python tests/erasure.py
           python tests/policy_tests.py
+      - name: Linux keyring recovery contracts
+        if: runner.os == 'Linux'
+        run: python tests/linux_credentials_tests.py
       - name: Build and launch Linux executable with isolated desktop keyring
         if: runner.os == 'Linux'
         run: |
           dbus-run-session -- xvfb-run -a bash -e -c '
+            python tests/linux_desktop_tests.py
+            python tests/compact_setup.py
+            python tests/localized_windows.py
             printf "fixture-only-password" | gnome-keyring-daemon --unlock --components=secrets
             python tools/build_posix.py
           '
       - name: Build and launch macOS application
         if: runner.os == 'macOS'
-        run: python tools/build_posix.py
+        run: |
+          python tests/compact_setup.py
+          python tests/localized_windows.py
+          python tools/build_posix.py
       - uses: actions/upload-artifact@v4
         with:
           name: DeathAtlasSync-${{ matrix.target }}

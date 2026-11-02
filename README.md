@@ -1,3 +1,9 @@
+# macOS and Linux setup and update notifications — 0.4.4
+
+The native 0.4.4 builds bring addon-only setup, bounded discovery and daily update notices to macOS Intel, macOS Apple Silicon and Linux x64. Configure before your first WoW login, without deaths or history; Sync waits for the first addon save. Open About for a newer-version download link. No automatic download or installation is performed. Preserve existing encrypted settings and the system keyring when upgrading. Windows 0.4.4 stays available separately.
+
+**Not tested with WoW or the official Forever client.** Native CI tests the first-install flow, account selection, updates, eleven language layouts, privacy contracts and the actual packaged Tk/credential-store startup. macOS is not Developer ID signed or notarized. Linux keeps its visible window and keyring recovery/help; X11/XWayland and an unlocked Secret Service keyring remain required. No automatic startup is included on macOS/Linux.
+
 # Windows setup and update notifications — 0.4.4
 
 Windows setup now accepts an installed Death Atlas addon before the first game login. No account save or death history is required to click OK. Sync stays in the background waiting for the first addon save; enable the addon and Sharing in `/da`, then close WoW. Detection proves the addon is installed, not that it is enabled in the game. Once a unique account save appears, Sync selects it without reading history until WoW is closed. If multiple accounts appear, use Configure and Detect to choose one. Missing addons have explicit installation guidance. Detect also checks common portable game folders at one bounded directory level, including custom folder names.
