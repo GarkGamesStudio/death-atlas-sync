@@ -285,7 +285,9 @@ def request(url,data=None):
     return json.loads(raw)
 
 def wow_running():
-    if os.name!='nt': return False
+    if os.name!='nt':
+        from platform_support import game_running
+        return game_running()
     # A windowed executable must also suppress its child process console.
     output=subprocess.run(['tasklist','/FO','CSV','/NH'],capture_output=True,text=True,check=True,
                           creationflags=subprocess.CREATE_NO_WINDOW).stdout

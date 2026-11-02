@@ -62,6 +62,9 @@ class App:
         self.autostart = tk.BooleanVar(value=bool(self.state.get('startup', False)))
         self.startup_checkbox = ttk.Checkbutton(self.panel, text=tr('autostart'), variable=self.autostart)
         self.startup_checkbox.pack(anchor='w', pady=(0, 8))
+        if os.name != 'nt':
+            self.autostart.set(False)
+            self.startup_checkbox.pack_forget()
         self.account_row = ttk.Frame(self.panel)
         ttk.Label(self.account_row, text=tr('account')).pack(anchor='w')
         self.selection = tk.StringVar()
@@ -75,6 +78,11 @@ class App:
         link.bind('<Button-1>', lambda event: webbrowser.open(PRIVACY_URL))
         self.status = tk.StringVar(value=tr('initial'))
         ttk.Label(self.panel, textvariable=self.status, wraplength=500).pack(anchor='w')
+        if os.name != 'nt':
+            ttk.Label(self.panel, text=tr('platform_preview'), wraplength=500, foreground='#cbf276').pack(anchor='w', pady=(8, 0))
+            desktop_actions=ttk.Frame(self.panel);desktop_actions.pack(fill='x',pady=(8,0))
+            ttk.Button(desktop_actions,text=tr('about'),command=self.about).pack(side='left')
+            ttk.Button(desktop_actions,text=tr('close'),command=self.close).pack(side='right')
         profile = self.state.get('selected')
         if profile and Path(profile['saved']).is_file() and (Path(profile['addon']) / 'DeathAtlas.toc').is_file():
             self.set_candidates([profile], profile)
@@ -186,7 +194,7 @@ class App:
 
         def task():
             try:
-                if not self.tray_ready.wait(5) or not self.icon:
+                if os.name == 'nt' and (not self.tray_ready.wait(5) or not self.icon):
                     raise engine.CheckError('TRAY', tr('tray_failed'))
                 with self.operation:
                     if self.quit.is_set():
@@ -209,6 +217,11 @@ class App:
         threading.Thread(target=task, daemon=True).start()
 
     def tray(self):
+        if sys.platform.startswith('linux'):
+            # Linux desktops disagree about tray support, especially Wayland.
+            # Keep a visible, minimizable window instead of hiding a working sync.
+            self.tray_ready.set()
+            return
         try:
             import pystray
             image = tray_image()
@@ -316,8 +329,9 @@ class App:
                     self.last_error = ''
                     self.last_status = tr('connected', time=time.strftime('%H:%M'))
                     self.status.set(self.last_status)
-                    self.root.withdraw()
-                    messagebox.showinfo('Death Atlas Sync', tr('success'), parent=self.root)
+                    if self.icon:
+                        self.root.withdraw()
+                    messagebox.showinfo('Death Atlas Sync', tr('success') if self.icon else tr('foreground_success'), parent=self.root)
                 elif kind == 'setup_error':
                     self.set_busy(False)
                     self.last_status = value[1]
@@ -327,6 +341,7 @@ class App:
                     self.fit_window()
                 elif kind == 'status':
                     self.last_status = value[1]
+                    if not self.icon:self.status.set(value[1])
                 elif kind in ('erasure_result', 'erasure_error'):
                     self.set_busy(False)
                     self.last_status = value[1]
@@ -339,6 +354,7 @@ class App:
                     self.root.withdraw()
                 elif kind == 'background_error':
                     self.last_status = value[1]
+                    if not self.icon:self.status.set(value[1])
                     if self.icon and value[1] != self.last_error:
                         try:
                             self.icon.notify(tr('retry_notice'), 'Death Atlas Sync')
@@ -407,14 +423,21 @@ def main():
             messagebox.showinfo('Death Atlas Sync', tr('already_open'))
             return
     root = tk.Tk()
+    instance = None
     try:
-        path = Path(os.environ.get('LOCALAPPDATA', str(Path.home()))) / 'GarkGames' / 'DeathAtlasSync' / 'settings.dpapi'
+        from platform_support import settings_path,acquire_instance
+        if os.name!='nt':
+            instance=acquire_instance()
+            if instance is None:
+                messagebox.showinfo('Death Atlas Sync',tr('already_open'));root.destroy();return
+        path = settings_path()
         App(root, engine.Settings(path), engine.endpoint(args.service), args.background)
         root.mainloop()
     except Exception:
         messagebox.showerror('Death Atlas Sync', tr('settings_failed'))
         root.destroy()
     finally:
+        if instance:instance.close()
         if mutex:
             ctypes.windll.kernel32.CloseHandle(ctypes.c_void_p(mutex))
 if __name__ == '__main__':

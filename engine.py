@@ -7,7 +7,7 @@ from urllib.request import Request,build_opener
 import deathatlas as data
 DEFAULT_SERVICE='https://garkgames.com/api/deathatlas'
 POLICY='2026-11-01'
-VERSION='0.4.0'
+VERSION='0.4.1'
 class SyncError(ValueError):pass
 
 def consented(state):
@@ -36,7 +36,9 @@ def api(base,route,payload=None,token=None):
 class Blob(ctypes.Structure):
  _fields_=[('cbData',ctypes.c_ulong),('pbData',ctypes.POINTER(ctypes.c_ubyte))]
 def protect(raw,unprotect=False):
- if os.name!='nt':raise SyncError('Las credenciales requieren Windows DPAPI')
+ if os.name!='nt':
+  from platform_support import protect as native_protect
+  return native_protect(raw,unprotect)
  buffer=ctypes.create_string_buffer(raw);source=Blob(len(raw),ctypes.cast(buffer,ctypes.POINTER(ctypes.c_ubyte)));dest=Blob()
  function=ctypes.windll.crypt32.CryptUnprotectData if unprotect else ctypes.windll.crypt32.CryptProtectData
  if not function(ctypes.byref(source),None,None,None,None,1,ctypes.byref(dest)):raise SyncError('No se pudieron proteger las credenciales de Windows')
@@ -56,8 +58,11 @@ class Settings:
   with self.lock:
    encoded=protect(json.dumps(value,ensure_ascii=False).encode())
    if len(encoded)>8*1024*1024:raise SyncError('Demasiadas cuentas en la configuración; no se reemplazó el archivo')
-   self.path.parent.mkdir(parents=True,exist_ok=True)
-   tmp=self.path.with_suffix('.tmp');tmp.write_bytes(encoded);os.replace(tmp,self.path)
+   self.path.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+   tmp=self.path.with_suffix('.tmp')
+   descriptor=os.open(tmp,os.O_WRONLY|os.O_CREAT|os.O_TRUNC,0o600)
+   with os.fdopen(descriptor,'wb') as output:output.write(encoded)
+   os.replace(tmp,self.path)
 
 
 from discovery import detect, automatic_roots, discover

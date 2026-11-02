@@ -1,0 +1,7 @@
+pyinstaller==6.22.3
+pystray==0.19.5
+pillow==13.0.0
+keyring==25.7.0
+cryptography==50.0.2
+psutil==7.2.2
+SecretStorage==3.5.0; sys_platform == 'linux'

@@ -1,5 +1,5 @@
 """WoW locale catalogs selected from Windows display-language preferences."""
-import ctypes,json,locale,os,sys
+import ctypes,json,locale,os,sys,re,subprocess
 from pathlib import Path
 
 LOCALES=('enUS','esES','esMX','deDE','frFR','itIT','ptBR','ruRU','koKR','zhCN','zhTW')
@@ -34,6 +34,15 @@ def windows_languages():
     if tag:result.append(tag)
    except (OSError,AttributeError):pass
  if not result:
+  if sys.platform=='darwin':
+   try:
+    output=subprocess.run(['defaults','read','-g','AppleLanguages'],capture_output=True,text=True,timeout=3,check=True).stdout
+    result.extend(re.findall(r'\b[a-z]{2}(?:-[A-Za-z0-9]+)*\b',output))
+   except (OSError,subprocess.SubprocessError):pass
+  elif sys.platform.startswith('linux'):
+   result.extend(x for x in os.environ.get('LANGUAGE','').split(':') if x)
+   result.extend(os.environ.get(k,'').split('.')[0] for k in ('LC_ALL','LC_MESSAGES','LANG') if os.environ.get(k))
+ if not result:
   try:result.append(locale.getlocale()[0] or 'en-US')
   except (ValueError,TypeError):pass
  return result
@@ -52,4 +61,7 @@ def set_language(code):
  LANGUAGE=code if code in LOCALES else 'enUS';CATALOG=read_catalog(LANGUAGE)
 
 def tr(key,**values):return CATALOG.get(key,ENGLISH[key]).format(**values)
-def font_family():return {'koKR':'Malgun Gothic','zhCN':'Microsoft YaHei UI','zhTW':'Microsoft JhengHei UI'}.get(LANGUAGE,'Segoe UI')
+def font_family():
+ if sys.platform=='darwin':return 'Helvetica'
+ if sys.platform.startswith('linux'):return 'DejaVu Sans'
+ return {'koKR':'Malgun Gothic','zhCN':'Microsoft YaHei UI','zhTW':'Microsoft JhengHei UI'}.get(LANGUAGE,'Segoe UI')

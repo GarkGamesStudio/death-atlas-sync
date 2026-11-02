@@ -1,3 +1,11 @@
+# 0.4.1 — macOS / Linux preview
+
+- Native Keychain / Secret Service protected encryption, private settings paths and process locks.
+- Native macOS and Wine/Linux process-name guards and bounded folder detection.
+- Foreground Linux mode, macOS tray fallback and eleven-language platform notices.
+- Native CI builds and executable smoke tests; no official Forever or in-game testing claimed.
+- Windows 0.4.0 download preserved. Startup integration remains Windows-only.
+
 # 0.4.0 Beta — authenticated contribution removal
 
 - About includes an explicitly confirmed request to remove the selected installation's shared contributions. Uses the existing protected key; no key is sent by email.

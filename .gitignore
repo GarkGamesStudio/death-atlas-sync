@@ -10,3 +10,7 @@ __pycache__/
 build/
 dist/
 *.spec
+
+release/
+THIRD_PARTY/POSIX-LICENSES/
+assets/DeathAtlas.icns

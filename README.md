@@ -1,3 +1,17 @@
+# macOS and Linux preview — 0.4.1
+
+New native builds for macOS Intel, macOS Apple Silicon and Linux x64. **Not tested with WoW or the official Forever service.** CI builds and launches the real packaged program and checks Tk and the native credential store; this is not an in-game or desktop usability test.
+
+Windows users should continue using the published 0.4.0 Windows release; its EXE and settings remain unchanged.
+
+macOS: encrypted settings use macOS Keychain. The application is not Developer ID signed or notarized. Linux: encrypted settings require an unlocked Secret Service keyring, glibc >=2.35 and X11/XWayland. Linux keeps a visible, minimizable window; closing it stops sync. No automatic startup is included on macOS/Linux. macOS uses its menu-bar icon when available and otherwise keeps the window visible. Manual folder selection supports custom Wine/Lutris/Steam layouts if bounded detection misses them.
+
+Native build workflow: .github/workflows/build-posix.yml. Each OS builds its own archive; there is no Windows-to-macOS cross compilation. tools/build_posix.py collects dependency licence notices and emits per-archive SHA-256 and BUILD-REPORT.json. No player history, production credentials or upload endpoint is used in these tests.
+
+Privacy and erasure operations use the same service contract as Windows. No plaintext credential fallback is allowed. If the native keyring is missing/locked or process detection fails, synchronization stops before reading/writing the game cache. Keep the operating system protections enabled.
+
+---
+
 # Death Atlas Sync 0.4.0
 
 Optional Windows x64 companion for Death Atlas, by Garkoth.

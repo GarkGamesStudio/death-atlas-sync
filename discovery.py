@@ -72,6 +72,15 @@ def battle_net_roots():
 
 def automatic_roots(preferred=()):
  roots=list(preferred)+registry_roots()+battle_net_roots()
+ if sys.platform=='darwin':
+  roots.extend(Path('/Applications')/name for name in NAMES)
+  roots.extend(Path.home()/'Applications'/name for name in NAMES)
+ elif sys.platform.startswith('linux'):
+  home=Path.home()
+  roots.extend(home/container/name for container in ('Games','games','.wine/drive_c/Program Files','.wine/drive_c/Program Files (x86)') for name in NAMES)
+  # Bounded launcher locations; never recursively walk Wine prefixes or entire drives.
+  for prefix in [home/'Games/battlenet',home/'Games/world-of-warcraft',home/'Games/battle-net']:
+   roots.extend(prefix/container/name for container in ('drive_c/Program Files','drive_c/Program Files (x86)','drive_c/Games') for name in NAMES)
  for key in ('ProgramFiles(x86)','ProgramFiles'):
   base=os.environ.get(key)
   if base:
