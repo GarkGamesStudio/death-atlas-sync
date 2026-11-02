@@ -1,3 +1,11 @@
+# 0.4.4 — Setup before first login
+
+- Configure Windows Sync with the addon installed, without saved history or deaths; wait for the first addon save and sharing permission rather than rejecting setup.
+- Detect addon-only installations, extra Forever folder names and custom names in bounded common game/download folders. Resolve the first unique account automatically; require an explicit choice if several appear.
+- Explain missing addon requirements and pending first-save status in all eleven languages. Detecting installation does not prove the addon is enabled in-game.
+- Check public website version metadata once every 24 hours. Notify about newer versions and offer a fixed download-page link in About. No automatic download or execution; no history, local paths or Sync keys in update requests.
+- Preserve settings, sharing checks, WoW process guards and the standard Windows portable folder. Existing macOS/Linux binaries are unchanged.
+
 # 0.4.3 — Windows portable folder
 
 - Ship the standard EXE plus visible runtime folder, without one-file self-extraction or UPX compression. Keep the whole folder when installing or moving it.
