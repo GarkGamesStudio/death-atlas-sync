@@ -1,5 +1,5 @@
 """Check actual Tk window layout in all catalogs with synthetic account choices."""
-import sys
+import gc,sys
 from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
@@ -18,6 +18,6 @@ with patch.object(app.App,'tray'),patch.object(app.App,'loop'),patch.object(app.
    assert ui.startup_checkbox.cget('text')==l10n.tr('autostart')
    assert not ui.autostart.get();assert app.tray_labels()==tuple(l10n.tr(k) for k in ('configure','about','close'))
    ui.about();root.update()
-  finally:ui.close()
+  finally:ui.close();ui=None;root=None;gc.collect()
 l10n.set_language(l10n.select_language(l10n.windows_languages()))
 print('PASS 11 real Tk locale layouts, startup label/default, account choices and About; no network or real settings writes')

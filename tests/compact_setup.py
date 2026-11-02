@@ -1,5 +1,5 @@
 """Real Tk widgets, mocked transport/tray, synthetic profiles; no real settings writes."""
-import copy,sys,time,unittest
+import copy,gc,sys,time,unittest
 from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
@@ -24,6 +24,9 @@ class CompactSetup(unittest.TestCase):
  def tearDown(self):
   if not self.ui.quit.is_set():self.ui.close()
   for p in reversed(self.patchers):p.stop()
+  # Release destroyed Tcl interpreters on their owning GUI thread before another
+  # test starts a worker (whose allocations may otherwise trigger cyclic GC).
+  self.ui=None;self.root=None;self.mocks=[];self.patchers=[];gc.collect()
  def wait(self):
   deadline=time.monotonic()+3
   while self.ui.busy and time.monotonic()<deadline:self.root.update();time.sleep(.01)
